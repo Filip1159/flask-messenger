@@ -25,13 +25,15 @@
                 </div>
             </div>
             {% for chat in chats %}
-                <div class="chatItem">
-                    <img src="{{chat.image_url}}" alt="User avatar"/>
-                    <div class="chatItem__chatData">
-                        <span class="chatItem__chatData__nameSurname">{{chat.name_surname}}</span>
-                        <span class="chatItem__chatData__lastMessage">{{chat.description}}</span>
+                <a href="{{chat.a_href}}">
+                    <div class="chatItem">
+                        <img src="{{chat.image_url}}" alt="User avatar"/>
+                        <div class="chatItem__chatData">
+                            <span class="chatItem__chatData__nameSurname">{{chat.name_surname}}</span>
+                            <span class="chatItem__chatData__lastMessage">{{chat.description}}</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             {% endfor %}
             <div class="leftPanel__foo"></div>
         </div>
@@ -51,19 +53,19 @@
                             <div class="messages__singleMessage__tooltip">{{message.time}}</div>
                         </div>
                     {% endif %}
+                    {% if message.read_by_second_user == True %}
+                        <img class="seenAvatar"
+                            src="{{messages.image_url}}"
+                            alt="seen avatar"
+                        />
+                    {% endif %}
                 {% endfor %}}
             </div>
-            <div class="seenAvatarsPanel">
-                <img
-                    class="seenAvatar"
-                    src="../static/avatars/janek007.png"
-                    alt="seen avatar"/>
-            </div>
         </div>
-        <form class="newMessageInput">
+        <div class="newMessageInput">
             <input type="text" class="newMessageInput__input"/>
             <input type="image" class="newMessageInput__btn" src="../static/send.png" alt="Send"/>
-        </form>
+        </div>
     </div>
     <div class="rightPanel">
         <img
@@ -75,4 +77,6 @@
         <span class="rightPanel__username">janek007</span>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/utils.js') }}"></script>
 {% endblock %}

@@ -153,20 +153,15 @@ class ChatAPI {
     };
 
     static postMessage(chatId, content) {
-        if (!this.isSignedIn()) {
-            throw new Error("User isn't signed in!");
-        }
         api.post("/message",
             {
                 chatId,
-                userId: this.getAuthDetails().id,
                 time: DateFormatter.nowToSql(),
                 content
             },
             {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: localStorage.getItem("token")
+                    "Content-Type": "application/json"
                 }
             }
         );

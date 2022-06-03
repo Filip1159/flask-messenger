@@ -18,7 +18,8 @@ def login():
         flash('Please check your login details and try again.')
         return redirect(url_for('auth.login'))
     login_user(user)
-    return redirect(url_for('routes.messages'))
+    chat_id = Participation.query.filter_by(user_id=user.id).first().chat_id
+    return redirect(f'/chats/{chat_id}')
 
 
 @auth.route("/login", methods=["GET"])

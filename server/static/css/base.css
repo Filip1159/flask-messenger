@@ -39,3 +39,12 @@ ul {
     display:flex;
     flex-direction: row;
 }
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    color: black;
+}

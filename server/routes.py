@@ -1,6 +1,8 @@
-from flask import Blueprint, request, render_template, flash, redirect, url_for, Response
+from flask import Blueprint, request, render_template, flash, redirect, url_for, Response, session
 from flask_login import login_required, current_user
 from .models import *
+from server import socket
+from flask_socketio import send, emit
 
 
 routes = Blueprint("routes", __name__)
@@ -14,25 +16,29 @@ def get_message(message_id):
 
 
 @routes.route("/message", methods=["POST"])
+@login_required
 def post_message():
-    chat_id = request.json["chat_id"]
-    user_id = request.json["user_id"]
+    chat_id = request.json["chatId"]
+    user_id = current_user.id
     content = request.json["content"]
     time = request.json["time"]
-    new_message = Message(chat_id, user_id, content, time)
+    new_message = Message(chat_id=chat_id, user_id=user_id, content=content, time=time)
     db.session.add(new_message)
     db.session.commit()
+    print(chat_id)
+    emit("Post message", "abc", namespace="/", to=1)
+    # TODO replace abc with message json
     return message_schema.jsonify(new_message), 201
 
 
 @routes.route("/chats/<chat_id>", methods=["GET"])
-@routes.route("/chats", methods=["GET"])
 @login_required
-def chats(chat_id=None):
-    participantions = Participation.query.filter_by(user_id=current_user.id)
+def chats(chat_id):
+    session["room"] = chat_id
+    participantions = Participation.query.filter_by(user_id=current_user.id).all()
     participant_chats = []
     for p in participantions:
-        chat = Chat.query.get(p.chat_id)  # chat that participations is about
+        chat = Chat.query.get(p.chat_id)
         chat_participants = Participation.query.filter_by(chat_id=p.chat_id).all()
         print("Participants")
         for pa in chat_participants:
@@ -49,6 +55,7 @@ def chats(chat_id=None):
         chat.description += "..." if len(last_message.content) > 35 else ""
         chat.image_url = f"../static/avatars/{chat.second_user.username}.png"
         chat.name_surname = chat.second_user.name + " " + chat.second_user.surname
+        chat.a_href = f"/chats/{p.chat_id}"
         participant_chats.append(chat)
     print(participant_chats)
     for chat in participant_chats:
@@ -59,8 +66,14 @@ def chats(chat_id=None):
     if chat_id is None:
         chat_id = participant_chats[0].id
     messages = Message.query.filter_by(chat_id=chat_id)
+    participations = Participation.query.filter_by(chat_id=chat_id).all()
+    second_user_index = 0 if participations[0].user_id != current_user.id else 1
+    second_user = User.query.get(participations[second_user_index].user_id)
+    second_user_read_message_id = participations[second_user_index].read_message_id
     for message in messages:
         message.my = True if message.user_id == current_user.id else False
+        message.read_by_second_user = True if message.id == second_user_read_message_id else False
+    messages.image_url = f"../static/avatars/{second_user.username}.png"
     return render_template("messages.html", chats=participant_chats, messages=messages)
 
 

@@ -78,7 +78,7 @@
     transition:mask-position .3s,-webkit-mask-position .3s;
     font-size:26px;
     max-height:calc(100vh - 65px);
-    max-width:430px;
+    min-width:430px;
     z-index:1;
     cursor:default;
     overflow-y:auto;
@@ -112,7 +112,7 @@
     justify-content:normal;
     align-items:normal;
     background-color:#282c34;
-    direction:ltr
+    direction:ltr;
 }
 
 .leftPanel__foo {
