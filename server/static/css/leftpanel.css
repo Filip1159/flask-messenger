@@ -1,0 +1,121 @@
+.chatItem {
+    background:#e7eb59;
+    display:flex;
+    flex-grow:0;
+    flex-direction:row;
+    justify-content:normal;
+    align-items:normal;
+    transition:.2s;
+    cursor:pointer
+}
+
+.chatItem__chatData {
+    display:flex;
+    flex-grow:0;
+    flex-direction:column;
+    justify-content:normal;
+    align-items:normal;
+    max-height:100px;
+    transition-property:visibility;
+    transition-delay:.5s
+}
+
+.chatItem__chatData__nameSurname {
+    font-weight:700;
+    letter-spacing:1px;
+    margin-top:20px;
+    margin-left:20px
+}
+
+.chatItem__chatData__lastMessage {
+    font-size:13px;
+    font-weight:lighter;
+    color:#785518;
+    margin-top:20px;
+    margin-left:20px
+}
+
+.chatItem:hover {
+    border-left:5px solid #e7eb59;
+    transition:.2s
+}
+
+.chatItem--active {
+    background:#282c34;
+    color:#fff;
+    font-size:30px;
+    cursor:default
+}
+
+.chatItem--active:hover {
+    border-left:none
+}
+
+.chatItem--active .chatItem__chatData__lastMessage {
+    display:none
+}
+
+.chatItem--beforeActive {
+    border-bottom-right-radius:30px
+}
+
+.chatItem--afterActive {
+    border-top-right-radius:30px
+}
+
+.leftPanel {
+    display:flex;
+    flex-grow:1;
+    flex-direction:column;
+    mask-image:linear-gradient(0deg,transparent,#000),linear-gradient(90deg,transparent 11px,#000 0);
+    mask-size:10000px 200000px;
+    mask-repeat:no-repeat;
+    mask-position:left bottom;
+    -webkit-mask-image:linear-gradient(0deg,transparent,#000),linear-gradient(90deg,transparent 11px,#000 0);
+    -webkit-mask-size:10000px 200000px;
+    -webkit-mask-repeat:no-repeat;
+    -webkit-mask-position:left bottom;
+    transition:mask-position .3s,-webkit-mask-position .3s;
+    font-size:26px;
+    max-height:calc(100vh - 65px);
+    max-width:430px;
+    z-index:1;
+    cursor:default;
+    overflow-y:auto;
+    overflow-x:visible;
+    direction:rtl;
+    transition:.5s;
+    padding-left:11px
+}
+
+.leftPanel::-webkit-scrollbar {
+    width:10px
+}
+
+.leftPanel::-webkit-scrollbar-track {
+    background-color:#000
+}
+
+.leftPanel::-webkit-scrollbar-thumb {
+    background-color:#fab131
+}
+
+.leftPanel:hover {
+    mask-position:left top;
+    -webkit-mask-position:left top
+}
+
+.leftPanel__flipped {
+    display:flex;
+    flex-grow:1;
+    flex-direction:column;
+    justify-content:normal;
+    align-items:normal;
+    background-color:#282c34;
+    direction:ltr
+}
+
+.leftPanel__foo {
+    background-color:#e7eb59;
+    flex-grow:1
+}

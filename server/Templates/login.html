@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block styles %}
+<link rel="stylesheet" href="../static/css/login.css"/>
+{% endblock %}
+
+{% block body %}
+<div class="loginPage">
+    <span class="loginPage__title">
+        <span aria-hidden="true">&gt;&gt;&gt;</span> restore your CONNECTion
+    </span>
+    <form class="loginPage__form" method="POST">
+        <label for="username" class="loginPage__label">your username:</label>
+        <input type="text" id="username" name="username" class="loginPage__input"/>
+        <label for="password" class="loginPage__label">password:</label>
+        <input type="password" id="password" name="password" class="loginPage__input"/>
+        <input type="submit" class="loginPage__input" value="sign in" />
+    </form>
+    <span class="loginPage__authFailed">Bad credentials! Try again</span>
+</div>
+<footer><b><span aria-hidden="true">&gt;&gt;&gt;</span> <i>CONNECT</i></b> - free text messenger | &copy; CONNECT Inc. 2022</footer>
+{% endblock %}

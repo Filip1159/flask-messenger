@@ -1,0 +1,29 @@
+.newMessageInput {
+    flex-grow:0
+}
+
+.newMessageInput,.newMessageInput__input {
+    display:flex;
+    flex-direction:row;
+    justify-content:normal;
+    align-items:normal
+}
+
+.newMessageInput__input {
+    flex-grow:1;
+    margin:18px
+}
+
+.newMessageInput__btn {
+    width:35px;
+    height:35px;
+    margin:20px 20px 20px 0;
+    transition:.2s;
+    cursor:pointer
+}
+
+.newMessageInput__btn:hover {
+    -webkit-filter:brightness(0);
+    filter:brightness(0);
+    width:45px
+}

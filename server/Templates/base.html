@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title> &gt;&gt;&gt;CONNECT</title>
+        <meta charset="utf=8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="../static/css/header.css"/>
+        <link rel="stylesheet" href="../static/css/base.css"/>
+<!--            <link rel="stylesheet" href="../static/routes-backup.css"/>-->
+        {% block styles %} {% endblock %}
+    </head>
+    <body>
+         <header class="header">
+            <span class="header__title">
+                <span aria-hidden="true">&gt;&gt;&gt;</span>
+                CONNECT
+            </span>
+             <img class="header__logoutIcon" src="../static/power-off.png" alt="power-off"/>
+        </header>
+        {% block body %} {% endblock %}
+    </body>
+</html>

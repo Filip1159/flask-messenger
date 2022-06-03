@@ -1,0 +1,41 @@
+@import url(https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,600;1,700;1,800;1,900&family=Varela+Round&display=swap);
+
+body {
+    background-color: #e7eb59;
+    font-family: "Lato", sans-serif;
+    margin: 0;
+    height: 100vh;
+    height: calc(var(--vh, 1vh)*100);
+    display:flex;
+    flex-direction:column;
+}
+
+input[type=password],input[type=submit],input[type=text]{
+    background-color:#000;
+    color:#fff;
+    padding:4px 13px;
+    border:2px solid #000;
+    border-radius:10px;
+    outline:none;
+    text-align:left;
+    font-size:18px;
+    cursor:text;
+    transition:.2s
+}
+
+input[type=password]:focus,input[type=submit]:focus,input[type=text]:focus {
+    border-color:#fab131;
+    transition:.2s
+}
+
+ul {
+    list-style-type:none;
+    text-align:left
+}
+
+.app__container {
+    flex:1 1;
+    display:flex;
+    flex-direction: row;
+}

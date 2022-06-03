@@ -1,0 +1,70 @@
+.loginPage {
+    background-color:#282c34;
+    display:flex;
+    flex-grow:1;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center
+}
+
+.loginPage__title {
+    font-family:"Kanit",sans-serif;
+    font-size:30px;
+    font-weight:600;
+    color:#fab131;
+    padding-bottom:30px
+}
+
+@media (max-width:576px) {
+    .loginPage__title {
+        font-size:18px
+    }
+}
+
+.loginPage__form {
+    display:flex;
+    flex-grow:0;
+    flex-direction:column;
+    justify-content:normal;
+    align-items:normal;
+    font-size:22px;
+    font-family:"Kanit", sans-serif;
+    color:#fff
+}
+
+.loginPage__label {
+    background:#000;
+    border-radius:10px;
+    margin:0 auto 0 10px;
+    padding:10px 20px;
+    letter-spacing:1px
+}
+
+.loginPage__input {
+    background:#000;
+    font-family:"Kanit",sans-serif;
+    font-size: 22px !important;
+    text-align:center !important;
+    letter-spacing:1px;
+    padding:10px 20px !important;
+    margin:10px;
+    border:none;
+    outline: none
+}
+
+.loginPage__authFailed {
+    font-size:18px;
+    color:#fab131;
+    margin-top:20px;
+    letter-spacing:1px
+}
+
+footer {
+    background:#eee;
+    font-size:13px;
+    font-weight:lighter;
+    color:#555;
+    text-align:center;
+    padding:5px;
+    letter-spacing:1px
+}
