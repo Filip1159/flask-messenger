@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, flash, redirect, url_for
-from flask_login import login_user
+from flask_login import login_user, login_required, logout_user
 from .models import *
 
 
@@ -23,5 +23,12 @@ def login():
 
 
 @auth.route("/login", methods=["GET"])
-def handle_login():
+def login_template():
     return render_template("login.html")
+
+
+@auth.route("/logout", methods=["GET"])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("auth.login"))

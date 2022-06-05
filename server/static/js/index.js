@@ -2,11 +2,12 @@ const btn = document.querySelector(".newMessageInput__btn")
 const username_span = document.querySelector(".rightPanel__username")
 const messages_panel = document.querySelector(".messages__container")
 const messages_container = document.querySelector(".messages__container")
+const input = document.querySelector(".newMessageInput__input")
 
 const socket = io()
 socket.on("connect", () => {
     console.log("on connect")
-    socket.emit("my event", {data: "Im connected!"})
+    socket.emit("connected")
 })
 socket.on("Post message", (message) => {
     console.log("got message")
@@ -46,8 +47,6 @@ const nowToSql = () => {
 }
 
 btn.addEventListener("click", () => {
-    const input = document.querySelector(".newMessageInput__input")
-    console.log("CLICK!")
     const path = window.location.pathname
     const slashIndex = path.lastIndexOf("/")
     const chatId = path.substring(slashIndex+1)
@@ -63,9 +62,9 @@ btn.addEventListener("click", () => {
             "Content-Type": "application/json"
         }
     })
+    input.value = ""
 })
 
 window.onload = () => {
-    console.log("scroll")
     messages_container.scrollTop = messages_container.scrollHeight;
 }

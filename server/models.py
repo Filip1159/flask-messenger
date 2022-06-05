@@ -1,4 +1,4 @@
-from server import db, ma
+from server import db
 from flask_login import UserMixin
 
 
@@ -8,20 +8,8 @@ class Chat(db.Model):
     messages = db.relationship("Message", lazy=True)
     participations = db.relationship("Participation", lazy=True)
 
-    # def __init__(self):
-    #     pass
-
     def __str__(self):
         return str(self.id)
-
-
-class ChatSchema(ma.Schema):
-    class Meta:
-        fields = ["id"]
-
-
-chat_schema = ChatSchema(strict=True)
-chats_schema = ChatSchema(many=True, strict=True)
 
 
 class Message(db.Model):
@@ -42,15 +30,6 @@ class Message(db.Model):
         return f"{self.id}, {self.chat_id}, {self.user_id}, {self.content}, {self.time}"
 
 
-class MessageSchema(ma.Schema):
-    class Meta:
-        fields = ("id", "chat_id", "user_id", "content", "time")
-
-
-message_schema = MessageSchema(strict=True)
-messages_schema = MessageSchema(many=True, strict=True)
-
-
 class Participation(db.Model):
     __tablename__ = "participations"
     chat_id = db.Column(db.Integer, db.ForeignKey("chats.id"), primary_key=True)
@@ -66,15 +45,6 @@ class Participation(db.Model):
 
     def __str__(self):
         return f"{self.chat_id}, {self.user_id}, {self.read_message_id}, {self.read_time}"
-
-
-class ParticipationSchema(ma.Schema):
-    class Meta:
-        fields = ("chat_id", "user_id", "read_message_id", "read_time")
-
-
-participation_schema = ParticipationSchema(strict=True)
-participations_schema = ParticipationSchema(many=True, strict=True)
 
 
 class User(UserMixin, db.Model):
@@ -93,12 +63,3 @@ class User(UserMixin, db.Model):
 
     def __str__(self):
         return f"{self.id}, {self.username}"
-
-
-class UserSchema(ma.Schema):
-    class Meta:
-        fields = ("id", "login", "password", "name", "surname")
-
-
-user_schema = UserSchema(strict=True)
-users_schema = UserSchema(many=True, strict=True)

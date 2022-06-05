@@ -1,0 +1,11 @@
+{% macro render_right_panel(current_user) %}
+    <div class="rightPanel">
+        <img
+            src={{"/static/img/avatars/" ~ current_user.username ~ ".png"}}
+            alt="User avatar"
+            class="rightPanel__userAvatar"
+        />
+        <span class="rightPanel__nameSurname">{{current_user.name ~ " " ~ current_user.surname}}</span>
+        <span class="rightPanel__username">{{current_user.username}}</span>
+    </div>
+{% endmacro %}

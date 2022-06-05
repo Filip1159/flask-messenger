@@ -1,7 +1,6 @@
 import datetime
 
 from flask import Flask, session
-from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, join_room, emit
@@ -9,7 +8,6 @@ from flask_session import Session
 
 
 db = SQLAlchemy()
-ma = Marshmallow()
 socket = SocketIO()
 
 
@@ -21,15 +19,13 @@ def create_app():
     Session(app)
 
     db.init_app(app)
-    ma.init_app(app)
     socket.init_app(app)
 
-    @socket.on("my event")
-    def handle_message(data):
-        print("received " + str(data))
-        join_room(1)
-
     from .models import Participation, Message
+
+    @socket.on("connected")
+    def on_connected():
+        join_room(session["room"])
 
     @socket.on("Read message signal")
     def read_message_signal():

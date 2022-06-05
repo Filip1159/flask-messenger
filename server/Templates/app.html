@@ -1,0 +1,22 @@
+{% from "left_panel.html" import render_left_panel %}
+{% from "messages_panel.html" import render_messages_panel %}
+{% from "right_panel.html" import render_right_panel %}
+{% extends "base.html" %}
+{% block styles %}
+<link rel="stylesheet" href="/static/css/leftpanel.css"/>
+<link rel="stylesheet" href="/static/css/search.css"/>
+<link rel="stylesheet" href="/static/css/messages.css"/>
+<link rel="stylesheet" href="/static/css/newmessageinput.css"/>
+<link rel="stylesheet" href="/static/css/seenavatar.css"/>
+<link rel="stylesheet" href="/static/css/rightpanel.css"/>
+{% endblock %}
+
+{% block body %}
+<div class="app__container">
+    {{ render_left_panel(chats) }}
+    {{ render_messages_panel(messages, current_user, recipient) }}
+    {{ render_right_panel(current_user) }}
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
