@@ -32,3 +32,8 @@ def login_template():
 def logout():
     logout_user()
     return redirect(url_for("auth.login"))
+
+
+@auth.route("/sign-up", methods=["GET"])
+def sign_up():
+    return render_template("sign_up.html")

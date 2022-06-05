@@ -7,36 +7,36 @@ body {
     margin: 0;
     height: 100vh;
     max-height: 100vh;
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
 }
 
-input[type=password],input[type=submit],input[type=text]{
-    background-color:#000;
-    color:#fff;
-    padding:4px 13px;
-    border:2px solid #000;
-    border-radius:10px;
-    outline:none;
-    text-align:left;
-    font-size:18px;
-    cursor:text;
-    transition:.2s
+input[type=password], input[type=submit], input[type=text], input[type=file] {
+    background-color: #000;
+    color: #fff;
+    padding: 4px 13px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    outline: none;
+    text-align: left;
+    font-size: 18px;
+    cursor: text;
+    transition: .2s;
 }
 
-input[type=password]:focus,input[type=submit]:focus,input[type=text]:focus {
-    border-color:#fab131;
-    transition:.2s
+input[type=password]:focus, input[type=submit]:focus, input[type=text]:focus, input[type=file]:focus {
+    border-color: #fab131;
+    transition: .2s;
 }
 
 ul {
-    list-style-type:none;
-    text-align:left
+    list-style-type: none;
+    text-align: left;
 }
 
 .app__container {
-    flex:1 1;
-    display:flex;
+    flex: 1 1;
+    display: flex;
     flex-direction: row;
     height: calc(100vh - 65px);
     max-height: calc(100vh - 65px);

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block styles %}
+<link rel="stylesheet" href="../static/css/signup.css"/>
+{% endblock %}
+
+{% block body %}
+<div class="signupPage">
+    <span class="signupPage__title">
+        <span aria-hidden="true">&gt;&gt;&gt;</span> make your own CONNECTion
+    </span>
+    <form class="signupPage__form" method="POST">
+        <label for="name" class="signupPage__label">your name:</label>
+        <input type="text" id="name" name="name" class="signupPage__input"/>
+
+        <label for="surname" class="signupPage__label">your surname:</label>
+        <input type="text" id="surname" name="surname" class="signupPage__input"/>
+
+        <label for="username" class="signupPage__label">your username:</label>
+        <input type="text" id="username" name="username" class="signupPage__input"/>
+
+        <label for="avatar" class="signupPage__label">your avatar (png or jpg file):</label>
+        <input type="file" id="avatar" name="avatar" class="signupPage__input" accept="image/png, image/jpeg"/>
+
+        <label for="password" class="signupPage__label">password:</label>
+        <input type="password" id="password" name="password" class="signupPage__input"/>
+
+        <label for="repeat_password" class="signupPage__label">repeat password:</label>
+        <input type="password" id="repeat_password" name="repeat_password" class="signupPage__input"/>
+
+        <input type="submit" class="signupPage__input" value="sign up"/>
+    </form>
+    <span class="signupPage__error">Bad credentials! Try again</span>
+</div>
+<footer><b><span aria-hidden="true">&gt;&gt;&gt;</span> <i>CONNECT</i></b> - free text messenger | &copy; CONNECT Inc. 2022</footer>
+{% endblock %}

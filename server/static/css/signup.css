@@ -1,4 +1,4 @@
-.loginPage {
+.signupPage {
     background-color: #282c34;
     display: flex;
     flex-grow: 1;
@@ -7,45 +7,45 @@
     align-items: center;
 }
 
-.loginPage__title {
+.signupPage__title {
     font-family: "Kanit", sans-serif;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 600;
     color: #fab131;
-    padding-bottom: 30px;
+    padding-bottom: 26px;
 }
 
-.loginPage__form {
+.signupPage__form {
     display: flex;
     flex-grow: 0;
     flex-direction: column;
-    font-size: 22px;
+    font-size: 18px;
     font-family: "Kanit", sans-serif;
     color: #fff;
 }
 
-.loginPage__label {
+.signupPage__label {
     background: #000;
-    border-radius: 10px;
+    border-radius: 8px;
     margin: 0 auto 0 10px;
-    padding: 10px 20px;
+    padding: 8px 16px;
     letter-spacing: 1px;
 }
 
-.loginPage__input {
+.signupPage__input {
     background: #000;
     font-family: "Kanit", sans-serif;
-    font-size: 22px !important;
+    font-size: 18px !important;
     text-align: center !important;
     letter-spacing: 1px;
-    padding: 10px 20px !important;
+    padding: 8px 16px !important;
     margin: 10px;
     border: none;
     outline: none;
 }
 
-.loginPage__authFailed {
-    font-size: 18px;
+.signupPage__error {
+    font-size: 14px;
     color: #fab131;
     margin-top: 20px;
     letter-spacing: 1px;

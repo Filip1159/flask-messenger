@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="../static/css/header.css"/>
         <link rel="stylesheet" href="../static/css/base.css"/>
-<!--            <link rel="stylesheet" href="../static/routes-backup.css"/>-->
         {% block styles %} {% endblock %}
     </head>
     <body>
@@ -15,8 +14,9 @@
                 <span aria-hidden="true">&gt;&gt;&gt;</span>
                 CONNECT
             </span>
-
-             <img class="header__logoutIcon" src="../static/img/power-off.png" alt="power-off"/>
+            <a href="/logout">
+                <img class="header__logoutIcon" src="../static/img/power-off.png" alt="power-off"/>
+            </a>
         </header>
         {% block body %} {% endblock %}
     </body>
