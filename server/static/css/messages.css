@@ -1,46 +1,17 @@
 .messages {
+    display: flex;
     background: #282c34;
     flex-direction: column;
     justify-content: flex-end;
     height: 100%;
-}
-
-.messages, .messages__container {
-    display: flex;
-    flex-grow: 1;
+    overflow-y: hidden;
 }
 
 .messages__container {
-    flex-direction: row;
-    overflow-y: auto
-}
-
-.messages__container::-webkit-scrollbar {
-    width:10px
-}
-
-.messages__container::-webkit-scrollbar-track {
-    background-color:#000
-}
-
-.messages__container::-webkit-scrollbar-thumb {
-    background-color:#fab131
-}
-
-.messages__container:hover {
-    mask-position:right top;
-    -webkit-mask-position:right top
-}
-
-.messages__container__displayContent {
     display: flex;
-    flex-grow: 0;
     flex-direction: column;
-    justify-content: flex-end;
     width: 100%;
-    max-height: calc(100vh - 145px);
-    padding-right: 30px;
-    overflow-y: visible
+    overflow-y: scroll;
 }
 
 .messages__singleMessage {

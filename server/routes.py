@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, flash, redirect, url_for, Response, session
+from flask import Blueprint, jsonify, request, render_template, flash, redirect, url_for, Response, session
 from flask_login import login_required, current_user
 from .models import *
 from server import socket
@@ -26,8 +26,8 @@ def post_message():
     db.session.add(new_message)
     db.session.commit()
     print(chat_id)
-    emit("Post message", "abc", namespace="/", to=1)
-    # TODO replace abc with message json
+    msg_json = {"chat_id": chat_id, "user_id": user_id, "content": content, "time": time, "sender": current_user.username}
+    emit("Post message", msg_json, namespace="/", to=1)
     return message_schema.jsonify(new_message), 201
 
 

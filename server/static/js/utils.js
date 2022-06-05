@@ -1,16 +1,29 @@
-console.log(1)
+const btn = document.querySelector(".newMessageInput__btn")
+const username_span = document.querySelector(".rightPanel__username")
+const messages_panel = document.querySelector(".messages__container")
+const messages_container = document.querySelector(".messages__container")
+
 const socket = io()
 socket.on("connect", () => {
     console.log("on connect")
     socket.emit("my event", {data: "Im connected!"})
 })
-socket.on("Post messgae", (data) => {
-    console.log("got message " + data)
-    // TODO when data will be a message, render it
+socket.on("Post message", (message) => {
+    console.log("got message")
+    console.log(message)
+    const new_msg = document.createElement("div")
+    new_msg.innerText = message.content
+    new_msg.classList.add("messages__singleMessage", `messages__singleMessage--${message.sender === username_span.innerText ? "myMsg" : "receivedMsg"}`)
+    const new_msg_tooltip = document.createElement("div")
+    new_msg_tooltip.innerText = message.time
+    new_msg_tooltip.classList.add("messages__singleMessage__tooltip")
+    new_msg.appendChild(new_msg_tooltip)
+    messages_panel.appendChild(new_msg)
+    messages_container.scrollTop = messages_container.scrollHeight;
 })
-console.log(2)
+socket.on("Read message", (data) => {
 
-const btn = document.querySelector(".newMessageInput__btn")
+})
 
 const nowToSql = () => {
     const d = new Date();
@@ -30,11 +43,6 @@ btn.addEventListener("click", () => {
     const slashIndex = path.lastIndexOf("/")
     const chatId = path.substring(slashIndex+1)
     console.log(chatId)
-    // socket.emit("new message", {
-    //     chatId,
-    //     time: nowToSql(),
-    //     content: input.value
-    // })
     fetch("/message", {
         method: "POST",
         body: JSON.stringify({
@@ -47,3 +55,8 @@ btn.addEventListener("click", () => {
         }
     })
 })
+
+window.onload = () => {
+    console.log("scroll")
+    messages_container.scrollTop = messages_container.scrollHeight;
+}

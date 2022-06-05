@@ -40,27 +40,25 @@
     </div>
     <div class="messages">
         <div class="messages__container">
-            <div class="messages__container__displayContent">
-                {% for message in messages %}
-                    {% if message.my == True %}
-                        <div class="messages__singleMessage messages__singleMessage--myMsg">
-                            {{message.content}}
-                            <div class="messages__singleMessage__tooltip">{{message.time}}</div>
-                        </div>
-                    {% else %}
-                        <div class="messages__singleMessage messages__singleMessage--receivedMsg">
-                            {{message.content}}
-                            <div class="messages__singleMessage__tooltip">{{message.time}}</div>
-                        </div>
-                    {% endif %}
-                    {% if message.read_by_second_user == True %}
-                        <img class="seenAvatar"
-                            src="{{messages.image_url}}"
-                            alt="seen avatar"
-                        />
-                    {% endif %}
-                {% endfor %}}
-            </div>
+            {% for message in messages %}
+                {% if message.my == True %}
+                    <div class="messages__singleMessage messages__singleMessage--myMsg">
+                        {{message.content}}
+                        <div class="messages__singleMessage__tooltip">{{message.time}}</div>
+                    </div>
+                {% else %}
+                    <div class="messages__singleMessage messages__singleMessage--receivedMsg">
+                        {{message.content}}
+                        <div class="messages__singleMessage__tooltip">{{message.time}}</div>
+                    </div>
+                {% endif %}
+                {% if message.read_by_second_user == True %}
+                    <img class="seenAvatar"
+                        src="{{messages.image_url}}"
+                        alt="seen avatar"
+                    />
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="newMessageInput">
             <input type="text" class="newMessageInput__input"/>
