@@ -1,8 +1,10 @@
+import datetime
+
 from flask import Flask, session
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-from flask_socketio import SocketIO, join_room
+from flask_login import LoginManager, current_user
+from flask_socketio import SocketIO, join_room, emit
 from flask_session import Session
 
 
@@ -27,9 +29,17 @@ def create_app():
         print("received " + str(data))
         join_room(1)
 
-    @socket.on("new message")
-    def handle_message(data):
-        print("received " + str(data))
+    from .models import Participation, Message
+
+    @socket.on("Read message signal")
+    def read_message_signal():
+        participation = Participation.query.filter_by(chat_id=int(session["room"]), user_id=current_user.id).first()
+        messages = Message.query.filter_by(chat_id=int(session["room"])).all()
+        participation.read_message_id = messages[-1].id
+        participation.read_time = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+        db.session.commit()
+        print("Inside read_message_signal")
+        emit("Read message", namespace="/", to=int(session["room"]))
 
     from .auth import auth
     from .routes import routes

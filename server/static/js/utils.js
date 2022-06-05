@@ -20,9 +20,18 @@ socket.on("Post message", (message) => {
     new_msg.appendChild(new_msg_tooltip)
     messages_panel.appendChild(new_msg)
     messages_container.scrollTop = messages_container.scrollHeight;
+    if (message.sender !== username_span.innerText)
+        socket.emit("Read message signal")
 })
-socket.on("Read message", (data) => {
-
+socket.on("Read message", () => {
+    const old_read_avatar = document.querySelector(".seenAvatar")
+    const avatar_img_src = old_read_avatar.src
+    old_read_avatar.remove()
+    const new_read_avatar = document.createElement("img")
+    new_read_avatar.classList.add("seenAvatar")
+    new_read_avatar.src = avatar_img_src
+    new_read_avatar.alt = "Seen avatar"
+    messages_container.appendChild(new_read_avatar)
 })
 
 const nowToSql = () => {

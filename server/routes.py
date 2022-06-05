@@ -18,23 +18,27 @@ def get_message(message_id):
 @routes.route("/message", methods=["POST"])
 @login_required
 def post_message():
-    chat_id = request.json["chatId"]
+    chat_id = int(request.json["chatId"])
     user_id = current_user.id
     content = request.json["content"]
     time = request.json["time"]
     new_message = Message(chat_id=chat_id, user_id=user_id, content=content, time=time)
     db.session.add(new_message)
     db.session.commit()
+    participation = Participation.query.filter_by(chat_id=chat_id, user_id=user_id).first()
+    participation.read_message_id = new_message.id
+    db.session.commit()
+    print(new_message.id)
     print(chat_id)
     msg_json = {"chat_id": chat_id, "user_id": user_id, "content": content, "time": time, "sender": current_user.username}
-    emit("Post message", msg_json, namespace="/", to=1)
+    emit("Post message", msg_json, namespace="/", to=session["room"])
     return message_schema.jsonify(new_message), 201
 
 
 @routes.route("/chats/<chat_id>", methods=["GET"])
 @login_required
 def chats(chat_id):
-    session["room"] = chat_id
+    session["room"] = int(chat_id)
     participantions = Participation.query.filter_by(user_id=current_user.id).all()
     participant_chats = []
     for p in participantions:
@@ -53,9 +57,7 @@ def chats(chat_id):
         chat.description = "Ty: " if current_user.id == last_message.user_id else f"{chat.second_user.name}: "
         chat.description += last_message.content[0:35]
         chat.description += "..." if len(last_message.content) > 35 else ""
-        chat.image_url = f"../static/avatars/{chat.second_user.username}.png"
         chat.name_surname = chat.second_user.name + " " + chat.second_user.surname
-        chat.a_href = f"/chats/{p.chat_id}"
         participant_chats.append(chat)
     print(participant_chats)
     for chat in participant_chats:
@@ -73,14 +75,10 @@ def chats(chat_id):
     for message in messages:
         message.my = True if message.user_id == current_user.id else False
         message.read_by_second_user = True if message.id == second_user_read_message_id else False
-    messages.image_url = f"../static/avatars/{second_user.username}.png"
-    return render_template("messages.html", chats=participant_chats, messages=messages)
-
-
-# @routes.route("/chats/<user_id>")
-# def get_chats_by_user_id(user_id=0):
-#     chats = Chat.query.filter_by(user_id=user_id)
-#     return chats_schema.jsonify(chats)
+    messages.username = second_user.username
+    user_details = {"name_surname": f"{current_user.name} {current_user.surname}", "username": current_user.username}
+    emit("Read message", namespace="/", to=session["room"])
+    return render_template("messages.html", chats=participant_chats, messages=messages, user_details=user_details)
 
 
 @routes.route("/chats/chat/<chat_id>")

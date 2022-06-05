@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block styles %}
-<link rel="stylesheet" href="../static/css/leftpanel.css"/>
-<link rel="stylesheet" href="../static/css/search.css"/>
-<link rel="stylesheet" href="../static/css/messages.css"/>
-<link rel="stylesheet" href="../static/css/newmessageinput.css"/>
-<link rel="stylesheet" href="../static/css/seenavatar.css"/>
-<link rel="stylesheet" href="../static/css/rightpanel.css"/>
+<link rel="stylesheet" href="/static/css/leftpanel.css"/>
+<link rel="stylesheet" href="/static/css/search.css"/>
+<link rel="stylesheet" href="/static/css/messages.css"/>
+<link rel="stylesheet" href="/static/css/newmessageinput.css"/>
+<link rel="stylesheet" href="/static/css/seenavatar.css"/>
+<link rel="stylesheet" href="/static/css/rightpanel.css"/>
 {% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@
     <div class="leftPanel">
         <div class="leftPanel__flipped">
             <div class="search">
-                <img class="search__img" src="../static/search.png" alt="search"/>
+                <img class="search__img" src="/static/search.png" alt="search"/>
                 <div class="search__container">
                     Szukaj:
                     <input type="text" class="search__queryInput"/>
@@ -25,9 +25,9 @@
                 </div>
             </div>
             {% for chat in chats %}
-                <a href="{{chat.a_href}}">
+                <a href={{"/chats/" ~ chat.id}}>
                     <div class="chatItem">
-                        <img src="{{chat.image_url}}" alt="User avatar"/>
+                        <img src={{"/static/avatars/" ~ chat.second_user.username ~ ".png"}} alt="User avatar"/>
                         <div class="chatItem__chatData">
                             <span class="chatItem__chatData__nameSurname">{{chat.name_surname}}</span>
                             <span class="chatItem__chatData__lastMessage">{{chat.description}}</span>
@@ -54,7 +54,7 @@
                 {% endif %}
                 {% if message.read_by_second_user == True %}
                     <img class="seenAvatar"
-                        src="{{messages.image_url}}"
+                        src={{"/static/avatars/" ~ messages.username ~ ".png" }}
                         alt="seen avatar"
                     />
                 {% endif %}
@@ -62,17 +62,17 @@
         </div>
         <div class="newMessageInput">
             <input type="text" class="newMessageInput__input"/>
-            <input type="image" class="newMessageInput__btn" src="../static/send.png" alt="Send"/>
+            <input type="image" class="newMessageInput__btn" src="/static/send.png" alt="Send"/>
         </div>
     </div>
     <div class="rightPanel">
         <img
-            src="../static/avatars/janek007.png"
+            src={{"/static/avatars/" ~ user_details.username ~ ".png"}}
             alt="User avatar"
             class="rightPanel__userAvatar"
         />
-        <span class="rightPanel__nameSurname">Jan Kowalski</span>
-        <span class="rightPanel__username">janek007</span>
+        <span class="rightPanel__nameSurname">{{user_details.name_surname}}</span>
+        <span class="rightPanel__username">{{user_details.username}}</span>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
