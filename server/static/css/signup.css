@@ -3,7 +3,6 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
@@ -12,7 +11,8 @@
     font-size: 26px;
     font-weight: 600;
     color: #fab131;
-    padding-bottom: 26px;
+    padding-top: 16px;
+    padding-bottom: 16px;
 }
 
 .signupPage__form {

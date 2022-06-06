@@ -8,7 +8,7 @@
     <span class="signupPage__title">
         <span aria-hidden="true">&gt;&gt;&gt;</span> make your own CONNECTion
     </span>
-    <form class="signupPage__form" method="POST">
+    <form class="signupPage__form" method="POST" enctype=multipart/form-data>
         <label for="name" class="signupPage__label">your name:</label>
         <input type="text" id="name" name="name" class="signupPage__input"/>
 
@@ -27,9 +27,10 @@
         <label for="repeat_password" class="signupPage__label">repeat password:</label>
         <input type="password" id="repeat_password" name="repeat_password" class="signupPage__input"/>
 
-        <input type="submit" class="signupPage__input" value="sign up"/>
+        <input type="submit" class="signupPage__input" id="buttonSubmit" value="sign up"/>
     </form>
-    <span class="signupPage__error">Bad credentials! Try again</span>
+    <span class="signupPage__error">{{error_message}}</span>
 </div>
 <footer><b><span aria-hidden="true">&gt;&gt;&gt;</span> <i>CONNECT</i></b> - free text messenger | &copy; CONNECT Inc. 2022</footer>
+<script type="text/javascript" src="{{ url_for('static', filename='js/sign_up.js') }}"></script>
 {% endblock %}

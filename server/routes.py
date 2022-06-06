@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request, render_template, flash, redirect, url_for, Response, session
 from flask_login import login_required, current_user
+import json
 from .models import *
 from server import socket
 from flask_socketio import send, emit, join_room
@@ -23,6 +24,7 @@ def post_message():
     db.session.commit()
     msg_json = {"chat_id": chat_id, "user_id": user_id, "content": content, "time": time, "sender": current_user.username}
     emit("Post message", msg_json, namespace="/", to=session["room"])
+    return jsonify(new_message.__dict__), 201
 
 
 @routes.route("/chats/<chat_id>", methods=["GET"])
@@ -48,6 +50,8 @@ def chats(chat_id):
 
 @routes.route("/user/<text>")
 def get_users_by_query(text):
-    users_by_name = User.query.filter_by(User.name.startswith(text))
-    users_by_surname = User.query.filter_by(User.surname.startswith(text))
-    users_by_username = User.query.filter_by(User.username.startswith(text))
+    result_set = set()
+    result_set.update(User.query.filter_by(User.name.startswith(text)).all())
+    result_set.update(User.query.filter_by(User.surname.startswith(text)).all())
+    result_set.update(User.query.filter_by(User.username.startswith(text)).all())
+    return jsonify(result_set)
