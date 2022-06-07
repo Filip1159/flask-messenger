@@ -4,17 +4,18 @@
             <div class="search">
                 <img class="search__img" src="/static/img/search.png" alt="search"/>
                 <div class="search__container">
-                    Szukaj:
+                    Search for users:
                     <input type="text" class="search__queryInput"/>
                     <div class="search__queryResult">
-                        <ul></ul>
+                        <ul class="search__queryResult__list"></ul>
                     </div>
                 </div>
             </div>
+            <div class="leftPanel__chatContainer">
             {% for chat in chats %}
                 <a href={{"/chats/" ~ chat.id}}>
                     <div class="chatItem">
-                        <img src={{"/static/img/avatars/" ~ chat.recipient.username ~ ".png"}} alt="User avatar"/>
+                        <img src={{"/static/img/avatars/" ~ chat.recipient.avatar_img}} alt="User avatar"/>
                         <div class="chatItem__chatData">
                             <span class="chatItem__chatData__nameSurname">{{chat.recipient.name ~ " " ~ chat.recipient.surname}}</span>
                             <span class="chatItem__chatData__lastMessage">{{chat.description}}</span>
@@ -22,6 +23,7 @@
                     </div>
                 </a>
             {% endfor %}
+            </div>
             <div class="leftPanel__foo"></div>
         </div>
     </div>

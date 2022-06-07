@@ -1,4 +1,4 @@
-from server import db
+from server import db, ma
 from flask_login import UserMixin
 
 
@@ -12,6 +12,15 @@ class Chat(db.Model):
         return str(self.id)
 
 
+class ChatSchema(ma.Schema):
+    class Meta:
+        fields = ["id"]
+
+
+chat_schema = ChatSchema(strict=True)
+chats_schema = ChatSchema(strict=True, many=True)
+
+
 class Message(db.Model):
     __tablename__ = "messages"
     id = db.Column(db.Integer, unique=True, primary_key=True)
@@ -19,15 +28,26 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     content = db.Column(db.String(1000))
     time = db.Column(db.DateTime)
+    type = db.Column(db.String(5))
 
-    def __init__(self, chat_id, user_id, content, time):
+    def __init__(self, chat_id, user_id, content, time, type):
         self.chat_id = chat_id
         self.user_id = user_id
         self.content = content
         self.time = time
+        self.type = type
 
     def __str__(self):
         return f"{self.id}, {self.chat_id}, {self.user_id}, {self.content}, {self.time}"
+
+
+class MessageSchema(ma.Schema):
+    class Meta:
+        fields = ["id", "chat_id", "user_id", "content", "time", "type"]
+
+
+message_schema = MessageSchema(strict=True)
+messages_schema = MessageSchema(strict=True, many=True)
 
 
 class Participation(db.Model):
@@ -45,6 +65,15 @@ class Participation(db.Model):
 
     def __str__(self):
         return f"{self.chat_id}, {self.user_id}, {self.read_message_id}, {self.read_time}"
+
+
+class ParticipationSchema(ma.Schema):
+    class Meta:
+        fields = ["chat_id", "user_id", "read_message_id", "read_time"]
+
+
+participation_schema = ParticipationSchema(strict=True)
+participations_schema = ParticipationSchema(strict=True, many=True)
 
 
 class User(UserMixin, db.Model):
@@ -65,3 +94,12 @@ class User(UserMixin, db.Model):
 
     def __str__(self):
         return f"{self.id}, {self.username}"
+
+
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ["id", "username", "name", "surname", "avatar_img"]
+
+
+user_schema = UserSchema(strict=True)
+users_schema = UserSchema(strict=True, many=True)

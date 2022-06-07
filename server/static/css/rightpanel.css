@@ -8,7 +8,7 @@
     max-width: 350px;
     padding: 40px 20px 20px 40px;
     cursor: default;
-    overflow-y: scroll
+    overflow-y: scroll;
 }
 
 .rightPanel::-webkit-scrollbar {

@@ -1,0 +1,13 @@
+{% macro render_message(current_user_id, message) %}
+<div class="messages__singleMessage
+    {% if message.user_id == current_user_id %} messages__singleMessage--myMsg {% else %} messages__singleMessage--receivedMsg {% endif %}
+    {% if message.type == 'img' %} messages__singleMessage--img {% endif %}"
+>
+    {% if message.type == "text" %}
+        {{message.content}}
+    {% else %}
+        <img src={{"/static/img/messages/" ~ message.content}} alt="Message image" class="messages__singleMessage__img"/>
+    {% endif %}
+    <div class="messages__singleMessage__tooltip">{{message.time}}</div>
+</div>
+{% endmacro %}

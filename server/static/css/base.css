@@ -6,6 +6,7 @@ body {
     font-family: "Lato", sans-serif;
     margin: 0;
     height: 100vh;
+    width: 100vw;
     max-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -40,6 +41,7 @@ ul {
     flex-direction: row;
     height: calc(100vh - 65px);
     max-height: calc(100vh - 65px);
+    width: 100vw;
 }
 
 a {

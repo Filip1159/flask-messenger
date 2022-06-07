@@ -1,5 +1,6 @@
 import datetime
 
+from flask_marshmallow import Marshmallow
 from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
@@ -8,17 +9,20 @@ from flask_session import Session
 
 
 db = SQLAlchemy()
+ma = Marshmallow()
 socket = SocketIO()
 
 
 def create_app():
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:admin@localhost:3306/connectmessenger"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SECRET_KEY"] = "secret!"
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
 
     db.init_app(app)
+    ma.init_app(app)
     socket.init_app(app)
 
     from .models import Participation, Message

@@ -1,7 +1,7 @@
 {% macro render_right_panel(current_user) %}
     <div class="rightPanel">
         <img
-            src={{"/static/img/avatars/" ~ current_user.username ~ ".png"}}
+            src={{"/static/img/avatars/" ~ current_user.avatar_img }}
             alt="User avatar"
             class="rightPanel__userAvatar"
         />

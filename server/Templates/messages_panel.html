@@ -1,29 +1,24 @@
+{% from "message.html" import render_message %}
 {% macro render_messages_panel(messages, current_user, recipient) %}
 <div class="messages">
         <div class="messages__container">
             {% for message in messages %}
-                {% if message.user_id == current_user.id %}
-                    <div class="messages__singleMessage messages__singleMessage--myMsg">
-                        {{message.content}}
-                        <div class="messages__singleMessage__tooltip">{{message.time}}</div>
-                    </div>
-                {% else %}
-                    <div class="messages__singleMessage messages__singleMessage--receivedMsg">
-                        {{message.content}}
-                        <div class="messages__singleMessage__tooltip">{{message.time}}</div>
-                    </div>
-                {% endif %}
+                {{ render_message(current_user.id, message) }}
                 {% if message.id == recipient.read_message_id %}
                     <img class="seenAvatar"
-                        src={{"/static/img/avatars/" ~ recipient.username ~ ".png" }}
+                        src={{"/static/img/avatars/" ~ recipient.avatar_img }}
                         alt="seen avatar"
                     />
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="newMessageInput">
-            <input type="text" class="newMessageInput__input"/>
+        <form class="newMessageInput">
+            <label for="message_id" class="newMessageInput__fileInputLabel">
+                <img src="/static/img/image_icon.png" alt="Send" class="newMessageInput__fileInputLabel__img"/>
+            </label>
+            <input id="message_id" name="message_img" type="file" class="newMessageInput__fileInput"/>
+            <input name="content" type="text" class="newMessageInput__input"/>
             <input type="image" class="newMessageInput__btn" src="/static/img/send.png" alt="Send"/>
-        </div>
+        </form>
     </div>
 {% endmacro %}

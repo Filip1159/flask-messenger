@@ -3,8 +3,11 @@ from .models import Message, User, Participation
 
 
 def create_chat_description(last_msg_in_chat: Message, recipient_name: str) -> str:
-    result = "Ty: " if current_user.id == last_msg_in_chat.user_id else f"{recipient_name}: "
-    result += last_msg_in_chat.content[0:35]
+    result = "You: " if current_user.id == last_msg_in_chat.user_id else f"{recipient_name}: "
+    if last_msg_in_chat.type == "text":
+        result += last_msg_in_chat.content[0:35]
+    else:
+        result += "<<Send image>>"
     result += "..." if len(last_msg_in_chat.content) > 35 else ""
     return result
 
