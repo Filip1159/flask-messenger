@@ -21,8 +21,20 @@ input[type=password], input[type=submit], input[type=text], input[type=file] {
     outline: none;
     text-align: left;
     font-size: 18px;
-    cursor: text;
     transition: .2s;
+}
+
+input[type=submit] {
+    cursor: pointer;
+}
+
+input[type=file]{
+    cursor: pointer;
+}
+
+input:disabled {
+    opacity: .5;
+    cursor: default;
 }
 
 input[type=password]:focus, input[type=submit]:focus, input[type=text]:focus, input[type=file]:focus {

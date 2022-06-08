@@ -51,6 +51,12 @@
     letter-spacing: 1px;
 }
 
+.loginPage__signUpLink {
+    color: #fab131 !important;
+    text-decoration: underline !important;
+    margin-top: 15px;
+}
+
 footer {
     background: #eee;
     font-size: 13px;

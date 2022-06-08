@@ -2,21 +2,27 @@
 {% macro render_messages_panel(messages, current_user, recipient) %}
 <div class="messages">
         <div class="messages__container">
-            {% for message in messages %}
-                {{ render_message(current_user.id, message) }}
-                {% if message.id == recipient.read_message_id %}
-                    <img class="seenAvatar"
-                        src={{"/static/img/avatars/" ~ recipient.avatar_img }}
-                        alt="seen avatar"
-                    />
-                {% endif %}
-            {% endfor %}
+            {% if messages is defined and messages %}
+                {% for message in messages %}
+                    {{ render_message(current_user.id, message) }}
+                    {% if message.id == recipient.read_message_id %}
+                        <img class="seenAvatar"
+                            src={{"/static/img/avatars/" ~ recipient.avatar_img }}
+                            alt="seen avatar"/>
+                    {% endif %}
+                {% endfor %}
+            {% elif messages is defined %}
+                <span class="messages__container__empty">No messages here yet...</span>
+                <img class="seenAvatar"
+                     src={{"/static/img/avatars/" ~ recipient.avatar_img }}
+                     alt="seen avatar"/>
+            {% endif %}
         </div>
         <form class="newMessageInput">
-            <label for="message_id" class="newMessageInput__fileInputLabel">
+            <label for="message_img" class="newMessageInput__fileInputLabel">
                 <img src="/static/img/image_icon.png" alt="Send" class="newMessageInput__fileInputLabel__img"/>
             </label>
-            <input id="message_id" name="message_img" type="file" class="newMessageInput__fileInput"/>
+            <input id="message_img" name="message_img" type="file" class="newMessageInput__fileInput"/>
             <input name="content" type="text" class="newMessageInput__input"/>
             <input type="image" class="newMessageInput__btn" src="/static/img/send.png" alt="Send"/>
         </form>

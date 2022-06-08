@@ -16,10 +16,13 @@ def login():
     password = request.form.get("password")
     user = User.query.filter_by(username=username, password=password).first()
     if not user:
-        return redirect(url_for('auth.login'))
+        return render_template("login.html", error=True)
     login_user(user)
-    chat_id = Participation.query.filter_by(user_id=user.id).first().chat_id
-    return redirect(f'/chats/{chat_id}')
+    first_participation = Participation.query.filter_by(user_id=user.id).first()
+    if first_participation:
+        return redirect(f"/chats/{first_participation.chat_id}")
+    else:
+        return redirect(f"/chats")
 
 
 @auth.route("/login", methods=["GET"])
@@ -41,44 +44,33 @@ def sign_up_template():
 
 @auth.route("/sign-up", methods=["POST"])
 def sign_up():
-    print("============ BEGIN sign-up ===========")
     letters_and_digits_regex = "^[0-9a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+$"
     only_letters_regex = "^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+$"
-    username = request.form.get("username")
-    print(username)
+    username = request.form["username"]
     if len(username) < 3:
-        print(1)
         return render_template("sign_up.html", error_message="Username must be at least 3 letters long!")
     if not re.match(letters_and_digits_regex, username):
-        print(2)
         return render_template("sign_up.html", error_message="Username may contain only letters and digits!")
     user = User.query.filter_by(username=username).first()
     if user:
-        print(3)
         return render_template("sign_up.html", error_message="Username is taken!")
     name = request.form["name"]
     name = name.capitalize()
     if not re.match(only_letters_regex, name):
-        print(5)
         return render_template("sign_up.html", error_message="Name cannot be blank!")
     surname = request.form["surname"]
     surname = surname.capitalize()
     if not re.match(only_letters_regex, surname):
-        print(6)
         return render_template("sign_up.html", error_message="Surname cannot be blank!")
     password = request.form["password"]
     result = validate_password(password)
     if result != "":
-        print(7)
         return render_template("sign_up.html", error_message=result)
     avatar = request.files["avatar"]
-    print(avatar.filename)
     if avatar.filename == "":
         avatar.filename = "default_avatar.jpg"
     elif is_filename_valid(avatar.filename):
-        print("filename is valid")
         avatar.filename = secure_filename(avatar.filename)
-        print(os.path.join("/static/img/avatars", f"{username}.{get_extension(avatar.filename)}"))
         avatar.save(f"/static/img/avatars/{username}.{get_extension(avatar.filename)}")
     new_user = User(name=name, surname=surname, username=username, password=password, avatar_img=avatar.filename)
     db.session.add(new_user)

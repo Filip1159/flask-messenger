@@ -49,6 +49,14 @@
     color: #fab131;
     margin-top: 20px;
     letter-spacing: 1px;
+    min-height: 20px;
+}
+
+.signupPage__loginLink {
+    color: #fab131 !important;
+    text-decoration: underline !important;
+    margin: 15px;
+    font-size: 18px;
 }
 
 footer {

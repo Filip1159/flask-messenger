@@ -17,17 +17,24 @@ routes = Blueprint("routes", __name__)
 def post_message(chat_id):
     chat_id = int(chat_id)
     user_id = current_user.id
-    if request.files:
+    print(request.files)
+    print(request.files["message_img"])
+    print(request.files["message_img"].filename)
+    if request.files["message_img"].filename != "":
+        print(1)
         content = ""
         msg_type = "img"
     else:
-        content = request.json["content"]
+        print(2)
+        content = request.form["content"]
         msg_type = "text"
     time = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     new_message = Message(chat_id=chat_id, user_id=user_id, content=content, time=time, type=msg_type)
     db.session.add(new_message)
     db.session.commit()
+    print(3)
     if msg_type == "img":
+        print(4)
         file = request.files["message_img"]
         file.save(f"./server/static/img/messages/{chat_id}_{new_message.id}.{get_extension(file.filename)}")
         new_message.content = f"{chat_id}_{new_message.id}.{get_extension(file.filename)}"
@@ -35,7 +42,7 @@ def post_message(chat_id):
     participation = Participation.query.filter_by(chat_id=chat_id, user_id=user_id).first()
     participation.read_message_id = new_message.id
     db.session.commit()
-    msg_json = {"chat_id": chat_id, "user_id": user_id, "content": new_message.content, "time": time, "msg_type": msg_type,
+    msg_json = {"chat_id": chat_id, "user_id": user_id, "content": new_message.content, "time": time, "type": msg_type,
                 "sender": current_user.username}
     emit("Post message", msg_json, namespace="/", to=session["room"])
     return message_schema.jsonify(new_message), 201
@@ -64,6 +71,12 @@ def chats(chat_id):
     emit("Read message", namespace="/", to=session["room"])
     return render_template("app.html", chats=all_chats_current_user_participates, messages=messages,
                            current_user=current_user, recipient=recipient)
+
+
+@routes.route("/chats", methods=["GET"])
+@login_required
+def empty_chats():
+    return render_template("app.html", chats=[], current_user=current_user)
 
 
 @routes.route("/user/<text>")

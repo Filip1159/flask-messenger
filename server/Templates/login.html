@@ -13,9 +13,13 @@
         <input type="text" id="username" name="username" class="loginPage__input"/>
         <label for="password" class="loginPage__label">password:</label>
         <input type="password" id="password" name="password" class="loginPage__input"/>
-        <input type="submit" class="loginPage__input" value="sign in" />
+        <input type="submit" id="submitLogin" class="loginPage__input" value="sign in"/>
     </form>
-    <span class="loginPage__authFailed">Bad credentials! Try again</span>
+    {% if error %}
+        <span class="loginPage__authFailed">Bad credentials! Try again</span>
+    {% endif %}
+    <a href="/sign-up" class="loginPage__signUpLink">Not a user yet? Sign Up</a>
 </div>
 <footer><b><span aria-hidden="true">&gt;&gt;&gt;</span> <i>CONNECT</i></b> - free text messenger | &copy; CONNECT Inc. 2022</footer>
+<script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}

@@ -15,8 +15,7 @@ socket.on("connect", () => {
     socket.emit("connected")
 })
 
-socket.on("Post message", (message) => {
-    console.log("got message")
+socket.on("Post message", message => {
     console.log(message)
     const new_msg = document.createElement("div")
     new_msg.classList.add("messages__singleMessage", `messages__singleMessage--${message.sender === username_span.innerText ? "myMsg" : "receivedMsg"}`)
@@ -34,6 +33,10 @@ socket.on("Post message", (message) => {
     new_msg_tooltip.classList.add("messages__singleMessage__tooltip")
     new_msg.appendChild(new_msg_tooltip)
     messages_panel.appendChild(new_msg)
+    const messagesContainerEmptySpan = document.querySelector(".messages__container__empty");
+    if (messagesContainerEmptySpan) {
+        messages_container.removeChild(messagesContainerEmptySpan)
+    }
     messages_container.scrollTop = messages_container.scrollHeight;
     if (message.sender !== username_span.innerText)
         socket.emit("Read message signal")
@@ -49,17 +52,6 @@ socket.on("Read message", () => {
     new_read_avatar.alt = "Seen avatar"
     messages_container.appendChild(new_read_avatar)
 })
-
-const nowToSql = () => {
-    const d = new Date();
-    let yr = d.getFullYear(), mon = d.getMonth()+1, day = d.getDate(), h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
-    if (mon < 10) mon = "0" + mon;
-    if (day < 10) day = "0" + day;
-    if (h < 10) h = "0" + h;
-    if (m < 10) m = "0" + m;
-    if (s < 10) s = "0" + s;
-    return `${yr}-${mon}-${day}T${h}:${m}:${s}`;
-}
 
 newMessageForm.addEventListener("submit", e => {
     e.preventDefault()
@@ -134,6 +126,10 @@ searchInput.addEventListener("input", async () => {
                     method: "POST"
                 })
                 const data = await res.json()
+                const chatContainerEmptySpan = document.querySelector(".leftPanel__empty");
+                if (chatContainerEmptySpan) {
+                    messages_container.removeChild(chatContainerEmptySpan)
+                }
                 renderNewChatItem(data.id, user)
             })
             searchResultList.appendChild(userLi)

@@ -4,7 +4,7 @@
     flex-grow: 0;
     flex-direction: row;
     transition: .2s;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .chatItem__chatData {
@@ -61,15 +61,6 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    mask-image: linear-gradient(0deg, transparent, #000), linear-gradient(90deg, transparent 11px, #000 0);
-    mask-size: 10000px 200000px;
-    mask-repeat: no-repeat;
-    mask-position: left bottom;
-    -webkit-mask-image: linear-gradient(0deg, transparent, #000), linear-gradient(90deg, transparent 11px, #000 0);
-    -webkit-mask-size: 10000px 200000px;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: left bottom;
-    transition: mask-position .3s, -webkit-mask-position .3s;
     font-size: 26px;
     max-height: calc(100vh - 65px);
     min-width: 430px;
@@ -80,8 +71,19 @@
     overflow-y: auto;
     overflow-x: visible;
     direction: rtl;
-    transition: .5s;
     padding-left: 11px;
+}
+
+.leftPanel__chatContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #e7eb59;
+}
+
+.leftPanel__empty {
+    font-size: 18px;
+    align-self: center;
+    color: #785518;
 }
 
 .leftPanel::-webkit-scrollbar {
@@ -107,6 +109,7 @@
     flex-direction: column;
     background-color: #282c34;
     direction: ltr;
+
 }
 
 .leftPanel__foo {

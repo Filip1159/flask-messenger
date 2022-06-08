@@ -122,6 +122,6 @@ addMultipleListeners(repeatPassword, ["mouseover", "focusin"], () => {
 
 document.querySelectorAll("input, label").forEach(element => {
     addMultipleListeners(element, ["mouseleave", "focusout"], () => {
-        info.innerText = "";
+        info.innerText = " ";
     })
 })

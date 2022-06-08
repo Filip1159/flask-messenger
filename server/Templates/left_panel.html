@@ -12,17 +12,21 @@
                 </div>
             </div>
             <div class="leftPanel__chatContainer">
-            {% for chat in chats %}
-                <a href={{"/chats/" ~ chat.id}}>
-                    <div class="chatItem">
-                        <img src={{"/static/img/avatars/" ~ chat.recipient.avatar_img}} alt="User avatar"/>
-                        <div class="chatItem__chatData">
-                            <span class="chatItem__chatData__nameSurname">{{chat.recipient.name ~ " " ~ chat.recipient.surname}}</span>
-                            <span class="chatItem__chatData__lastMessage">{{chat.description}}</span>
-                        </div>
-                    </div>
-                </a>
-            {% endfor %}
+                {% if chats is defined and chats %}
+                    {% for chat in chats %}
+                        <a href={{"/chats/" ~ chat.id}}>
+                            <div class="chatItem">
+                                <img class="chatItem__img" src={{"/static/img/avatars/" ~ chat.recipient.avatar_img}} alt="User avatar"/>
+                                <div class="chatItem__chatData">
+                                    <span class="chatItem__chatData__nameSurname">{{chat.recipient.name ~ " " ~ chat.recipient.surname}}</span>
+                                    <span class="chatItem__chatData__lastMessage">{{chat.description}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <span class="leftPanel__empty">No chats here yet...</span>
+                {% endif %}
             </div>
             <div class="leftPanel__foo"></div>
         </div>
