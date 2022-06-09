@@ -4,7 +4,6 @@
 
 .newMessageInput,.newMessageInput__input {
     display: flex;
-    flex-direction: row;
 }
 
 .newMessageInput__input {

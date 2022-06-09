@@ -26,6 +26,8 @@ ul {
     padding: 0;
     margin: 0;
     border: none;
+    list-style-type: none;
+    text-align: left;
 }
 
 ul li {

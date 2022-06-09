@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,600;1,700;1,800;1,900&family=Varela+Round&display=swap);
 
 body {
-    background-color: #e7eb59;
+    background: #e7eb59;
     font-family: "Lato", sans-serif;
     margin: 0;
     height: 100vh;
@@ -14,7 +14,7 @@ body {
 }
 
 input[type=password], input[type=submit], input[type=text], input[type=file] {
-    background-color: #000;
+    background: #000;
     color: #fff;
     padding: 4px 13px;
     border: 2px solid #000;
@@ -25,11 +25,7 @@ input[type=password], input[type=submit], input[type=text], input[type=file] {
     transition: .2s;
 }
 
-input[type=submit] {
-    cursor: pointer;
-}
-
-input[type=file]{
+input[type=submit], input[type=file] {
     cursor: pointer;
 }
 
@@ -43,15 +39,9 @@ input[type=password]:focus, input[type=submit]:focus, input[type=text]:focus, in
     transition: .2s;
 }
 
-ul {
-    list-style-type: none;
-    text-align: left;
-}
-
 .app__container {
     flex: 1 1;
     display: flex;
-    flex-direction: row;
     height: calc(100vh - 65px);
     max-height: calc(100vh - 65px);
     width: 100vw;
@@ -72,11 +62,22 @@ a:visited {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #000;
+    background: #000;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #fab131;
+    background: #fab131;
     border: 2px black solid;
     border-radius: 4px;
+}
+
+
+footer {
+    background: #eee;
+    font-size: 13px;
+    font-weight: lighter;
+    color: #555;
+    text-align: center;
+    padding: 5px;
+    letter-spacing: 1px;
 }

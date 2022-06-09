@@ -56,13 +56,3 @@
     text-decoration: underline !important;
     margin-top: 15px;
 }
-
-footer {
-    background: #eee;
-    font-size: 13px;
-    font-weight: lighter;
-    color: #555;
-    text-align: center;
-    padding: 5px;
-    letter-spacing: 1px;
-}
