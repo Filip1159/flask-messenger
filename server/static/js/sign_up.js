@@ -13,112 +13,93 @@ let usernameOldValue = "", nameOldValue = "", surnameOldValue = "", passwordOldV
 let usernameValid = false, nameValid = false, surnameValid = false, passwordValid = false, repeatPasswordValid = false
 
 const updateUsernameValid = () => {
-    usernameValid = username.value.length >= 3 && lettersAndDigitsRegex.test(username.value);
-    updateButtonDisabled();
+    usernameValid = username.value.length >= 3 && lettersAndDigitsRegex.test(username.value)
+    updateButtonDisabled()
 }
 
 const updateNameValid = () => {
-    nameValid = onlyLettersRegex.test(name.value) && firstUppercaseRegex.test(name.value);
-    updateButtonDisabled();
+    nameValid = onlyLettersRegex.test(name.value) && firstUppercaseRegex.test(name.value)
+    updateButtonDisabled()
 }
 
 const updateSurnameValid = () => {
-    surnameValid = onlyLettersRegex.test(surname.value) && firstUppercaseRegex.test(surname.value);
-    updateButtonDisabled();
+    surnameValid = onlyLettersRegex.test(surname.value) && firstUppercaseRegex.test(surname.value)
+    updateButtonDisabled()
 }
 
 const updatePasswordValid = () => {
-    passwordValid = password.value.length >= 8 && password.value.length <= 20 && /\d/.test(password.value) && !/\s/.test(password.value);
+    passwordValid = password.value.length >= 8 && password.value.length <= 20 && /\d/.test(password.value) && !/\s/.test(password.value)
     updateRepeatPasswordValid()
-    updateButtonDisabled();
+    updateButtonDisabled()
 }
 
 const updateRepeatPasswordValid = () => {
-    repeatPasswordValid = repeatPassword.value !== "" && password.value === repeatPassword.value;
-    updateButtonDisabled();
+    repeatPasswordValid = repeatPassword.value !== "" && password.value === repeatPassword.value
+    updateButtonDisabled()
 }
 
 const updateButtonDisabled = () => {
-    submitBtn.disabled = !(usernameValid && nameValid && surnameValid && passwordValid && repeatPasswordValid);
+    submitBtn.disabled = !(usernameValid && nameValid && surnameValid && passwordValid && repeatPasswordValid)
 }
 
 const addMultipleListeners = (element, events, listener) => {
-    for (let e of events) {
-        element.addEventListener(e, listener);
-    }
+    for (let e of events)
+        element.addEventListener(e, listener)
+}
+
+const updateInfo = condition => {
+    if (condition) info.style["color"] = "green"
+    else info.style["color"] = "red"
 }
 
 document.addEventListener("keyup", () => {
     if (username.value !== usernameOldValue) {
-        usernameOldValue = username.value;
-        updateUsernameValid();
-        if (usernameValid)
-            info.style["color"] = "green";
-        else
-            info.style["color"] = "red";
+        usernameOldValue = username.value
+        updateUsernameValid()
+        updateInfo(usernameValid)
     } else if (name.value !== nameOldValue) {
-        nameOldValue = name.value;
-        updateNameValid();
-        if (nameValid)
-            info.style["color"] = "green";
-        else
-            info.style["color"] = "red";
+        nameOldValue = name.value
+        updateNameValid()
+        updateInfo(nameValid)
     } else if (surname.value !== surnameOldValue) {
-        surnameOldValue = surname.value;
-        updateSurnameValid();
-        if (surnameValid)
-            info.style["color"] = "green";
-        else
-            info.style["color"] = "red";
+        surnameOldValue = surname.value
+        updateSurnameValid()
+        updateInfo(surnameValid)
     } else if (password.value !== passwordOldValue) {
-        passwordOldValue = password.value;
-        updatePasswordValid();
-        if (repeatPasswordValid)
-            info.style["color"] = "green";
-        else
-            info.style["color"] = "red";
-        if (passwordValid)
-            info.style["color"] = "green";
-        else
-            info.style["color"] = "red";
+        passwordOldValue = password.value
+        updatePasswordValid()
+        updateInfo(repeatPassword)
+        updateInfo(passwordValid)
     } else if (repeatPassword.value !== repeatPasswordOldValue) {
-        repeatPasswordOldValue = repeatPassword.value;
-        updateRepeatPasswordValid();
-        if (repeatPasswordValid)
-            info.style["color"] = "green";
-        else
-            info.style["color"] = "red";
+        repeatPasswordOldValue = repeatPassword.value
+        updateRepeatPasswordValid()
+        updateInfo(repeatPasswordValid)
     }
 })
 
 addMultipleListeners(username, ["mouseover", "focusin"], () => {
     info.innerText = "At least 3 characters long, may contain letters and digits"
-    if (usernameValid) info.style["color"] = "green";
-    else info.style["color"] = "red";
+    updateInfo(usernameValid)
 })
 
 addMultipleListeners(name, ["mouseover", "focusin"], () => {
-    info.innerText = "Not blank, contains only letters, starts with uppercase";
-    if (nameValid) info.style["color"] = "green";
-    else info.style["color"] = "red";
+    info.innerText = "Not blank, contains only letters, starts with uppercase"
+    updateInfo(nameValid)
 })
 
 addMultipleListeners(surname, ["mouseover", "focusin"], () => {
-    info.innerText = "Contains only letters, starts with upper case";
-    if (surnameValid) info.style["color"] = "green";
-    else info.style["color"] = "red";
+    info.innerText = "Only letters, starts with upper case"
+    updateInfo(surnameValid)
 })
 
 addMultipleListeners(password, ["mouseover", "focusin"], () => {
-    info.innerText = "Between 8 - 20 characters, contains only letters and at least one digit";
-    if (passwordValid) info.style["color"] = "green";
-    else info.style["color"] = "red";
+    info.innerText = "8 - 20 characters, contains only letters and at least one digit";
+    updateInfo(passwordValid)
 })
 
 addMultipleListeners(repeatPassword, ["mouseover", "focusin"], () => {
     info.innerText = "Same as above";
-    if (repeatPasswordValid) info.style["color"] = "green";
-    else info.style["color"] = "red";
+    updateInfo(repeatPasswordValid)
 })
 
 document.querySelectorAll("input, label").forEach(element => {
