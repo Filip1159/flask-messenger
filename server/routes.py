@@ -17,24 +17,17 @@ routes = Blueprint("routes", __name__)
 def post_message(chat_id):
     chat_id = int(chat_id)
     user_id = current_user.id
-    print(request.files)
-    print(request.files["message_img"])
-    print(request.files["message_img"].filename)
     if request.files["message_img"].filename != "":
-        print(1)
         content = ""
         msg_type = "img"
     else:
-        print(2)
         content = request.form["content"]
         msg_type = "text"
     time = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     new_message = Message(chat_id=chat_id, user_id=user_id, content=content, time=time, type=msg_type)
     db.session.add(new_message)
     db.session.commit()
-    print(3)
     if msg_type == "img":
-        print(4)
         file = request.files["message_img"]
         file.save(f"./server/static/img/messages/{chat_id}_{new_message.id}.{get_extension(file.filename)}")
         new_message.content = f"{chat_id}_{new_message.id}.{get_extension(file.filename)}"
@@ -44,7 +37,7 @@ def post_message(chat_id):
     db.session.commit()
     msg_json = {"chat_id": chat_id, "user_id": user_id, "content": new_message.content, "time": time, "type": msg_type,
                 "sender": current_user.username}
-    emit("Post message", msg_json, namespace="/", to=session["room"])
+    emit("new message from server", msg_json, namespace="/", to=session["room"])
     return message_schema.jsonify(new_message), 201
 
 
@@ -62,7 +55,7 @@ def chats(chat_id):
             chat.description = create_chat_description(last_msg_in_chat=chat.messages[-1],
                                                        recipient_name=chat.recipient.name)
         else:
-            chat.description = "<<New chat>>"
+            chat.description = "Empty chat"
         all_chats_current_user_participates.append(chat)
     messages = Message.query.filter_by(chat_id=chat_id).all()
     recipient_participation = get_recipient_participation_details(chat_id)
@@ -93,7 +86,6 @@ def create_chat(recipient_id):
     new_chat = Chat()
     db.session.add(new_chat)
     db.session.commit()
-    print(new_chat.id)
     new_recipient_participation = Participation(chat_id=new_chat.id, user_id=recipient_id, read_message_id=-1,
                                                 read_time=None)
     db.session.add(new_recipient_participation)

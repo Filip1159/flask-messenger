@@ -20,7 +20,7 @@
     cursor: pointer;
 }
 
-.newMessageInput__btn:hover {
+.newMessageInput__btn:enabled:hover {
     -webkit-filter: brightness(0);
     filter: brightness(0);
     width: 45px;
@@ -31,12 +31,22 @@
     width: 1px;
 }
 
+.newMessageInput__btn:disabled {
+    opacity: .5;
+    cursor: default;
+}
+
 .newMessageInput__fileInputLabel__img {
     width: 40px;
     height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    min-height: 40px;
+    min-width: 40px;
     margin: 20px 0 20px 20px;
     cursor: pointer;
     transition: .2s;
+    border-radius: 4px;
 }
 
 .newMessageInput__fileInputLabel__img:hover {

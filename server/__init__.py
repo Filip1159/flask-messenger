@@ -31,15 +31,14 @@ def create_app():
     def on_connected():
         join_room(session["room"])
 
-    @socket.on("Read message signal")
+    @socket.on("read message from client")
     def read_message_signal():
         participation = Participation.query.filter_by(chat_id=int(session["room"]), user_id=current_user.id).first()
         messages = Message.query.filter_by(chat_id=int(session["room"])).all()
         participation.read_message_id = messages[-1].id
         participation.read_time = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
         db.session.commit()
-        print("Inside read_message_signal")
-        emit("Read message", namespace="/", to=int(session["room"]))
+        emit("read message from server", namespace="/", to=int(session["room"]))
 
     from .auth import auth
     from .routes import routes

@@ -1,9 +1,12 @@
+{% from "header.html" import render_header %}
 {% extends "base.html" %}
 {% block styles %}
-<link rel="stylesheet" href="../static/css/login.css"/>
+<link rel="stylesheet" href="/static/css/login.css"/>
+<link rel="stylesheet" href="/static/css/header.css"/>
 {% endblock %}
 
 {% block body %}
+{{ render_header(False) }}
 <div class="loginPage">
     <span class="loginPage__title">
         <span aria-hidden="true">&gt;&gt;&gt;</span> restore your CONNECTion

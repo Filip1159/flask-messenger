@@ -7,7 +7,7 @@ def create_chat_description(last_msg_in_chat: Message, recipient_name: str) -> s
     if last_msg_in_chat.type == "text":
         result += last_msg_in_chat.content[0:35]
     else:
-        result += "<<Send image>>"
+        result += "Send image"
     result += "..." if len(last_msg_in_chat.content) > 35 else ""
     return result
 

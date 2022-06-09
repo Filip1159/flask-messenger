@@ -1,0 +1,13 @@
+{% macro render_header(logout_visible) %}
+    <header class="header">
+        <span class="header__title">
+            <span aria-hidden="true">&gt;&gt;&gt;</span>
+            CONNECT
+        </span>
+        {% if logout_visible %}
+            <a href="/logout">
+                <img class="header__logoutIcon" src="../static/img/power-off.png" alt="power-off"/>
+            </a>
+        {% endif %}
+    </header>
+{% endmacro %}

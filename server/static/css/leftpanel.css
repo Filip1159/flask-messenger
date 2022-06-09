@@ -7,6 +7,11 @@
     cursor: pointer;
 }
 
+.chatItem__img {
+    width: 100px;
+    height: 100px;
+}
+
 .chatItem__chatData {
     display: flex;
     flex-grow: 0;
@@ -84,18 +89,6 @@
     font-size: 18px;
     align-self: center;
     color: #785518;
-}
-
-.leftPanel::-webkit-scrollbar {
-    width: 10px;
-}
-
-.leftPanel::-webkit-scrollbar-track {
-    background-color: #000;
-}
-
-.leftPanel::-webkit-scrollbar-thumb {
-    background-color: #fab131;
 }
 
 .leftPanel:hover {
