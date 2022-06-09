@@ -125,3 +125,5 @@ document.querySelectorAll("input, label").forEach(element => {
         info.innerText = " ";
     })
 })
+
+window.addEventListener("load", updateButtonDisabled)

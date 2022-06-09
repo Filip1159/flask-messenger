@@ -69,9 +69,9 @@ def sign_up():
     avatar = request.files["avatar"]
     if avatar.filename == "":
         avatar.filename = "default_avatar.jpg"
-    elif is_filename_valid(avatar.filename):
-        avatar.filename = secure_filename(avatar.filename)
-        avatar.save(f"/static/img/avatars/{username}.{get_extension(avatar.filename)}")
+    else:
+        avatar.filename = f"{username}.{get_extension(avatar.filename)}"
+        avatar.save(f"./server/static/img/avatars/{avatar.filename}")
     new_user = User(name=name, surname=surname, username=username, password=password, avatar_img=avatar.filename)
     db.session.add(new_user)
     db.session.commit()

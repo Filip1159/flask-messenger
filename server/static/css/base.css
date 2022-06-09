@@ -10,6 +10,7 @@ body {
     max-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 input[type=password], input[type=submit], input[type=text], input[type=file] {
@@ -54,6 +55,7 @@ ul {
     height: calc(100vh - 65px);
     max-height: calc(100vh - 65px);
     width: 100vw;
+    overflow-x: hidden;
 }
 
 a {

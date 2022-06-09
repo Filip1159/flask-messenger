@@ -55,7 +55,9 @@ socket.on("Read message", () => {
 
 newMessageForm.addEventListener("submit", e => {
     e.preventDefault()
-    postMessage()
+    if (newMessageFileInput.files || input.value !== "")
+        postMessage()
+    newMessageForm.reset()
 })
 
 const postMessage = () => {
@@ -94,7 +96,7 @@ const renderNewChatItem = (chatId, recipient) => {
     chatItem.classList.add("chatItem")
     a.appendChild(chatItem)
     const img = document.createElement("img")
-    img.src = `/static/img/avatars/${recipient.username}.png`
+    img.src = `/static/img/avatars/${recipient.avatar_img}`
     img.alt = "User avatar"
     chatItem.appendChild(img)
     const chatData = document.createElement("div")
@@ -128,7 +130,7 @@ searchInput.addEventListener("input", async () => {
                 const data = await res.json()
                 const chatContainerEmptySpan = document.querySelector(".leftPanel__empty");
                 if (chatContainerEmptySpan) {
-                    messages_container.removeChild(chatContainerEmptySpan)
+                    chatContainer.removeChild(chatContainerEmptySpan)
                 }
                 renderNewChatItem(data.id, user)
             })

@@ -16,7 +16,7 @@
                     {% for chat in chats %}
                         <a href={{"/chats/" ~ chat.id}}>
                             <div class="chatItem">
-                                <img class="chatItem__img" src={{"/static/img/avatars/" ~ chat.recipient.avatar_img}} alt="User avatar"/>
+                                <img class="chatItem__img" src={{"/static/img/avatars/" ~ chat.recipient.avatar_img}} alt="User avatar" width="100" height="100"/>
                                 <div class="chatItem__chatData">
                                     <span class="chatItem__chatData__nameSurname">{{chat.recipient.name ~ " " ~ chat.recipient.surname}}</span>
                                     <span class="chatItem__chatData__lastMessage">{{chat.description}}</span>
