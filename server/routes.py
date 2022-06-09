@@ -1,9 +1,7 @@
 import datetime
 import os
-from flask import Blueprint, request, render_template, session
+from flask import Blueprint, request, render_template, session, redirect
 from flask_login import login_required
-from werkzeug.utils import secure_filename
-
 from .models import *
 from .filename_utils import *
 from flask_socketio import send, emit, join_room
@@ -61,7 +59,7 @@ def chats(chat_id):
     recipient_participation = get_recipient_participation_details(chat_id)
     recipient = User.query.get(recipient_participation.user_id)
     recipient.read_message_id = recipient_participation.read_message_id
-    emit("Read message", namespace="/", to=session["room"])
+    emit("read message from server", namespace="/", to=session["room"])
     return render_template("app.html", chats=all_chats_current_user_participates, messages=messages,
                            current_user=current_user, recipient=recipient)
 
@@ -69,6 +67,9 @@ def chats(chat_id):
 @routes.route("/chats", methods=["GET"])
 @login_required
 def empty_chats():
+    optional_first_user_participation = Participation.query.filter_by(user_id=current_user.id).first()
+    if optional_first_user_participation:
+        return redirect(f"/chats/{optional_first_user_participation.chat_id}")
     return render_template("app.html", chats=[], current_user=current_user)
 
 
@@ -93,4 +94,10 @@ def create_chat(recipient_id):
                                                    read_message_id=-1, read_time=None)
     db.session.add(new_current_user_participation)
     db.session.commit()
+    my_dto = {"id": current_user.id,
+              "name": current_user.name,
+              "surname": current_user.surname,
+              "username": current_user.username,
+              "avatar_img": current_user.avatar_img}
+    emit("new chat", {"recipient": my_dto, "chat_id": new_chat.id}, namespace="/", to=f"user{recipient_id}")
     return chat_schema.jsonify(new_chat)

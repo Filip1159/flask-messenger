@@ -30,6 +30,7 @@ def create_app():
     @socket.on("connected")
     def on_connected():
         join_room(session["room"])
+        join_room(f"user{current_user.id}")
 
     @socket.on("read message from client")
     def read_message_signal():

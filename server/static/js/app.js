@@ -27,6 +27,12 @@ socket.on("read message from server", () => {
     updateReadAvatar()
 })
 
+socket.on("new chat", data => {
+    console.log("new chat")
+    console.log(data)
+    renderNewChatItem(data.chat_id, data.recipient)
+})
+
 newMessageForm.addEventListener("submit", e => {
     e.preventDefault()
     if (newMessageFileInput.files || newMessageInput.value !== "")
