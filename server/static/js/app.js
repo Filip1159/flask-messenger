@@ -1,14 +1,14 @@
-const searchInput = document.querySelector(".search__queryInput")
-const searchResultList = document.querySelector(".search__queryResult__list")
-const chatContainer = document.querySelector(".leftPanel__chatContainer")
-const chatContainerEmptySpan = document.querySelector(".leftPanel__empty")
-const messagesContainer = document.querySelector(".messages__container")
-const newMessageForm = document.querySelector(".newMessageInput")
-const newMessageFileInput = document.querySelector(".newMessageInput__fileInput")
-const newMessageInputFileInputImg = document.querySelector(".newMessageInput__fileInputLabel__img")
-const newMessageInput = document.querySelector(".newMessageInput__input")
-const newMessageSubmit = document.querySelector(".newMessageInput__btn")
-const rightPanelUsername = document.querySelector(".rightPanel__username")
+const search = document.querySelector(".search__queryInput")
+const results = document.querySelector(".search__queryResult__list")
+const chats = document.querySelector(".leftPanel__chatContainer")
+const chatsEmpty = document.querySelector(".leftPanel__empty")
+const messages = document.querySelector(".messages__container")
+const form = document.querySelector(".newMessageInput")
+const fileInput = document.querySelector(".newMessageInput__fileInput")
+const fileInputImg = document.querySelector(".newMessageInput__fileInputLabel__img")
+const input = document.querySelector(".newMessageInput__input")
+const submit = document.querySelector(".newMessageInput__btn")
+const username = document.querySelector(".rightPanel__username")
 
 const socket = io()
 
@@ -18,8 +18,8 @@ socket.on("connect", () => {
 
 socket.on("new message from server", message => {
     renderNewMessage(message)
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    if (message.sender !== rightPanelUsername.innerText)
+    messages.scrollTop = messages.scrollHeight
+    if (message.sender !== username.innerText)
         socket.emit("read message from client")
 })
 
@@ -31,19 +31,19 @@ socket.on("new chat", data => {
     renderNewChatItem(data.chat_id, data.recipient)
 })
 
-newMessageForm?.addEventListener("submit", e => {
+form?.addEventListener("submit", e => {
     e.preventDefault()
-    if (newMessageFileInput.files || newMessageInput.value !== "")
+    if (fileInput.files || input.value !== "")
         postMessage()
-    newMessageForm.reset()
-    newMessageInputFileInputImg.src = "/static/img/image_icon.png"
+    form.reset()
+    fileInputImg.src = "/static/img/image_icon.png"
 })
 
 const postMessage = () => {
     const path = window.location.pathname
     const slashIndex = path.lastIndexOf("/")
     const chatId = path.substring(slashIndex + 1)
-    const formData = new FormData(newMessageForm)
+    const formData = new FormData(form)
     fetch(`/message/${chatId}`, {
         method: "POST",
         body: formData
@@ -51,35 +51,35 @@ const postMessage = () => {
 }
 
 const updateNewMessageSubmitDisabled = () => {
-    if (newMessageSubmit)
-        newMessageSubmit.disabled = newMessageInput.value === "" && newMessageFileInput.files.length === 0
+    if (submit)
+        submit.disabled = input.value === "" && fileInput.files.length === 0
 }
 
-newMessageInput?.addEventListener("input", () => {
-    newMessageFileInput.value = null
-    newMessageInputFileInputImg.src = "/static/img/image_icon.png"
+input?.addEventListener("input", () => {
+    fileInput.value = null
+    fileInputImg.src = "/static/img/image_icon.png"
     updateNewMessageSubmitDisabled()
 })
 
-newMessageFileInput?.addEventListener("change", () => {
-    newMessageInput.value = ""
-    const fileReader = new FileReader()
-    fileReader.readAsDataURL(newMessageFileInput.files[0])
-    fileReader.onloadend = e => {
-        newMessageInputFileInputImg.src = e.target.result
+fileInput?.addEventListener("change", () => {
+    input.value = ""
+    const r = new FileReader()
+    r.readAsDataURL(fileInput.files[0])
+    r.onloadend = e => {
+        fileInputImg.src = e.target.result
     }
     updateNewMessageSubmitDisabled()
 })
 
 window.addEventListener("load", () => {
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    messages.scrollTop = messages.scrollHeight;
     updateNewMessageSubmitDisabled()
 })
 
-searchInput.addEventListener("input", async () => {
-    searchResultList.innerHTML = ""
-    if (searchInput.value !== "") {
-        const res = await fetch(`/user/${searchInput.value}`, {
+search.addEventListener("input", async () => {
+    results.innerHTML = ""
+    if (search.value !== "") {
+        const res = await fetch(`/user/${search.value}`, {
             method: "GET"
         })
         const usersList = await res.json()

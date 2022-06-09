@@ -6,7 +6,7 @@ const renderNewChatItem = (chatId, recipient) => {
     a.appendChild(chatItem)
     addImageToChatItem(chatItem, recipient.avatar_img)
     addChatDataToChatItem(chatItem, recipient)
-    chatContainer.appendChild(a)
+    chats.appendChild(a)
 }
 
 const addImageToChatItem = (chatItem, avatarImg) => {
@@ -52,12 +52,11 @@ const renderUserQueryItem = user => {
                 method: "POST"
             })
             const chat = await res.json()
-            if (chatContainerEmptySpan) {
-                chatContainer.removeChild(chatContainerEmptySpan)
-            }
+            if (chatsEmpty)
+                chats.removeChild(chatsEmpty)
             renderNewChatItem(chat.id, user)
         })
-        searchResultList.appendChild(userLi)
+        results.appendChild(userLi)
 }
 
 const updateReadAvatar = () => {
@@ -68,21 +67,21 @@ const updateReadAvatar = () => {
     newReadAvatar.classList.add("seenAvatar")
     newReadAvatar.src = avatarImgSrc
     newReadAvatar.alt = "Seen avatar"
-    messagesContainer.appendChild(newReadAvatar)
+    messages.appendChild(newReadAvatar)
 }
 
 const renderNewMessage = message => {
     const messageDiv = document.createElement("div")
-    messageDiv.classList.add("messages__singleMessage", `messages__singleMessage--${message.sender === rightPanelUsername.innerText ? "myMsg" : "receivedMsg"}`)
+    messageDiv.classList.add("messages__singleMessage", `messages__singleMessage--${message.sender === username.innerText ? "myMsg" : "receivedMsg"}`)
     if (message.type === "text")
         messageDiv.innerText = message.content
     else
         renderNewMessageAsImage(messageDiv, message.content)
     renderMessageTooltip(messageDiv, message.time)
-    messagesContainer.appendChild(messageDiv)
+    messages.appendChild(messageDiv)
     const messagesContainerEmptySpan = document.querySelector(".messages__container__empty");
     if (messagesContainerEmptySpan)
-        messagesContainer.removeChild(messagesContainerEmptySpan)
+        messages.removeChild(messagesContainerEmptySpan)
 }
 
 const renderMessageTooltip = (messageDiv, messageTime) => {
