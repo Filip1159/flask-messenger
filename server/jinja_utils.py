@@ -1,5 +1,7 @@
 from flask_login import current_user
-from .models import Message, User, Participation
+from server.models.Message import Message
+from server.models.User import User
+from server.models.Participation import Participation
 
 
 def create_chat_description(last_msg_in_chat: Message, recipient_name: str) -> str:

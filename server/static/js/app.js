@@ -28,12 +28,10 @@ socket.on("read message from server", () => {
 })
 
 socket.on("new chat", data => {
-    console.log("new chat")
-    console.log(data)
     renderNewChatItem(data.chat_id, data.recipient)
 })
 
-newMessageForm.addEventListener("submit", e => {
+newMessageForm?.addEventListener("submit", e => {
     e.preventDefault()
     if (newMessageFileInput.files || newMessageInput.value !== "")
         postMessage()
@@ -53,16 +51,17 @@ const postMessage = () => {
 }
 
 const updateNewMessageSubmitDisabled = () => {
-    newMessageSubmit.disabled = newMessageInput.value === "" && newMessageFileInput.files.length === 0
+    if (newMessageSubmit)
+        newMessageSubmit.disabled = newMessageInput.value === "" && newMessageFileInput.files.length === 0
 }
 
-newMessageInput.addEventListener("input", () => {
+newMessageInput?.addEventListener("input", () => {
     newMessageFileInput.value = null
     newMessageInputFileInputImg.src = "/static/img/image_icon.png"
     updateNewMessageSubmitDisabled()
 })
 
-newMessageFileInput.addEventListener("change", () => {
+newMessageFileInput?.addEventListener("change", () => {
     newMessageInput.value = ""
     const fileReader = new FileReader()
     fileReader.readAsDataURL(newMessageFileInput.files[0])

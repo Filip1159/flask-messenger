@@ -1,4 +1,5 @@
-from server import create_app, socket
+from server import create_app
+from server.socket import socket
 
 
 app = create_app()

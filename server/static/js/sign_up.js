@@ -29,6 +29,7 @@ const updateSurnameValid = () => {
 
 const updatePasswordValid = () => {
     passwordValid = password.value.length >= 8 && password.value.length <= 20 && /\d/.test(password.value) && !/\s/.test(password.value);
+    updateRepeatPasswordValid()
     updateButtonDisabled();
 }
 
@@ -38,7 +39,7 @@ const updateRepeatPasswordValid = () => {
 }
 
 const updateButtonDisabled = () => {
-    submitBtn.disabled = !(usernameValid && nameValid && surnameValid && passwordOldValue && repeatPasswordValid);
+    submitBtn.disabled = !(usernameValid && nameValid && surnameValid && passwordValid && repeatPasswordValid);
 }
 
 const addMultipleListeners = (element, events, listener) => {

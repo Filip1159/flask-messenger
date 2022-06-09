@@ -1,10 +1,13 @@
 import re
-import os
-from flask import Blueprint, request, render_template, flash, redirect, url_for
-from flask_login import login_user, login_required, logout_user
-from .models import *
+from flask import Blueprint, request, render_template, redirect, url_for, session
+from flask_login import login_user, login_required, logout_user, current_user
+from flask_socketio import leave_room
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from server.models.User import User
+from server.models.Participation import Participation
 from .filename_utils import *
-from werkzeug.utils import secure_filename
+from server import db
 
 
 auth = Blueprint("auth", __name__)
@@ -14,8 +17,10 @@ auth = Blueprint("auth", __name__)
 def login():
     username = request.form.get("username")
     password = request.form.get("password")
-    user = User.query.filter_by(username=username, password=password).first()
+    user = User.query.filter_by(username=username).first()
     if not user:
+        return render_template("login.html", error=True)
+    if not check_password_hash(user.password, password):
         return render_template("login.html", error=True)
     login_user(user)
     first_participation = Participation.query.filter_by(user_id=user.id).first()
@@ -33,6 +38,8 @@ def login_template():
 @auth.route("/logout", methods=["GET"])
 @login_required
 def logout():
+    leave_room(session["room"], namespace="/", sid=session["room"])
+    leave_room(f"user{current_user.id}", namespace="/", sid=session["room"])
     logout_user()
     return redirect(url_for("auth.login"))
 
@@ -66,6 +73,7 @@ def sign_up():
     result = validate_password(password)
     if result != "":
         return render_template("sign_up.html", error_message=result)
+    password = generate_password_hash(password, method='sha256')
     avatar = request.files["avatar"]
     if avatar.filename == "":
         avatar.filename = "default_avatar.jpg"
