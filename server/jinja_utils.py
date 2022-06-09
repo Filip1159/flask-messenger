@@ -3,6 +3,9 @@ from server.models.Message import Message
 from server.models.User import User
 from server.models.Participation import Participation
 
+# set of jinja templates utils
+# useful when rendering
+
 
 def create_chat_description(last_msg_in_chat: Message, recipient_name: str) -> str:
     result = "You: " if current_user.id == last_msg_in_chat.user_id else f"{recipient_name}: "

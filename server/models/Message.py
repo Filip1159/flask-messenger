@@ -2,6 +2,17 @@ from server import db, ma
 
 
 class Message(db.Model):
+    """
+    Message entity, resolved message table
+    Contains information about messages from the whole app
+    Attributes:
+        id - unique integer identifier
+        chat_id - identifies chat that message belongs to
+        user_id - identifies user, who sent this message
+        content - message itself, contains either a text or a filename if message itself is an image
+        time - when this message was sent
+        type - distinguishes text messages ("text") from images ("img")
+    """
     __tablename__ = "messages"
     id = db.Column(db.Integer, unique=True, primary_key=True)
     chat_id = db.Column(db.Integer, db.ForeignKey("chats.id"))
@@ -22,9 +33,15 @@ class Message(db.Model):
 
 
 class MessageSchema(ma.Schema):
+    """
+    MessageSchema contains metadata about Message attributes,
+    that should be included by Marshmallow in serialized JSON
+    """
     class Meta:
         fields = ["id", "chat_id", "user_id", "content", "time", "type"]
 
 
+# single Message json schema
 message_schema = MessageSchema(strict=True)
+# multiple Messages json schema
 messages_schema = MessageSchema(strict=True, many=True)

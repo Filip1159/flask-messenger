@@ -3,6 +3,17 @@ from flask_login import UserMixin
 
 
 class User(UserMixin, db.Model):
+    """
+    User entity, resolved users table
+    Contains information about users from the whole app
+    Attributes:
+        id - unique integer identifier
+        name - user's name
+        surname - user's surname
+        username - user's username, unique
+        password - user's password hash generated using sha256 algorithm, as storing passwords in plain text may cause law and ethical issues
+        avatar_img - filename provided by user as his avatar, defaults to default_avatar.jpg
+    """
     __tablename__ = "users"
     id = db.Column(db.Integer, unique=True, primary_key=True)
     username = db.Column(db.String(30), unique=True)
@@ -23,9 +34,16 @@ class User(UserMixin, db.Model):
 
 
 class UserSchema(ma.Schema):
+    """
+    UserSchema contains metadata about User attributes,
+    that should be included by Marshmallow in serialized JSON
+    (password ignored)
+    """
     class Meta:
         fields = ["id", "username", "name", "surname", "avatar_img"]
 
 
+# single User json schema
 user_schema = UserSchema(strict=True)
+# multiple Users json schema
 users_schema = UserSchema(strict=True, many=True)

@@ -15,6 +15,17 @@ routes = Blueprint("routes", __name__)
 @routes.route("/message/<chat_id>", methods=["POST"])
 @login_required
 def post_message(chat_id):
+    """
+    endpoint called when new message is posted by user
+    chat_id - path variable that identifies chat that new message belongs to
+    body contains one of the following:
+        - file send via message
+        - text content of message send
+    adds current user id - info who sent this message
+    adds time - when this message was sent
+    saves message in database and optional file on disk
+    emits new message from server to second chat participant, so that he can receive it immediately
+    """
     chat_id = int(chat_id)
     user_id = current_user.id
     if request.files["message_img"].filename != "":
@@ -44,6 +55,14 @@ def post_message(chat_id):
 @routes.route("/chats/<chat_id>", methods=["GET"])
 @login_required
 def chats(chat_id):
+    """
+    loads necessary data and renders main app template
+    chat_id - chat's identifier which messages will be displayed in messages panel
+    loads all signed in user's chats
+    loads all chat messages
+    emits read message from server, so recipient will be notified, that their messages were read
+    returns main app rendered template
+    """
     session["room"] = int(chat_id)
     all_current_user_participations = Participation.query.filter_by(user_id=current_user.id).all()
     all_chats_current_user_participates = []
@@ -69,6 +88,11 @@ def chats(chat_id):
 @routes.route("/chats", methods=["GET"])
 @login_required
 def empty_chats():
+    """
+    returns empty app template
+    before checks if signed in user for sure has no chat do render
+    if so it redirects to /chats with path variable equal to first found chat
+    """
     optional_first_user_participation = Participation.query.filter_by(user_id=current_user.id).first()
     if optional_first_user_participation:
         return redirect(f"/chats/{optional_first_user_participation.chat_id}")
@@ -77,6 +101,9 @@ def empty_chats():
 
 @routes.route("/user/<text>")
 def get_users_by_query(text):
+    """
+    searches for users, whose names, surnames or usernames contain provided phrase
+    """
     result_set = set()
     result_set.update(User.query.filter(User.name.startswith(text)).all())
     result_set.update(User.query.filter(User.surname.startswith(text)).all())
@@ -86,6 +113,11 @@ def get_users_by_query(text):
 
 @routes.route("/chat/<recipient_id>", methods=["POST"])
 def create_chat(recipient_id):
+    """
+    creates new chat, whose participants will be signed in user and this identified by recipient_id
+    emits new chat signal, so user will be notified about newly created chat
+    returns json of newly created chat
+    """
     new_chat = Chat()
     db.session.add(new_chat)
     db.session.commit()

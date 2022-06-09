@@ -15,6 +15,12 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["POST"])
 def login():
+    """
+    login route
+    verifies username and password with those stored in database
+    if they are incorrect renders login template with error message
+    else redirects to app route
+    """
     username = request.form.get("username")
     password = request.form.get("password")
     user = User.query.filter_by(username=username).first()
@@ -32,12 +38,21 @@ def login():
 
 @auth.route("/login", methods=["GET"])
 def login_template():
+    """
+    renders login template
+    """
     return render_template("login.html")
 
 
 @auth.route("/logout", methods=["GET"])
 @login_required
 def logout():
+    """
+    logout route
+    makes current user leave all its rooms
+    removes user session
+    redirects to login route
+    """
     leave_room(session["room"], namespace="/", sid=session["room"])
     leave_room(f"user{current_user.id}", namespace="/", sid=session["room"])
     logout_user()
@@ -46,11 +61,20 @@ def logout():
 
 @auth.route("/sign-up", methods=["GET"])
 def sign_up_template():
+    """
+    renders signup template
+    """
     return render_template("sign_up.html")
 
 
 @auth.route("/sign-up", methods=["POST"])
 def sign_up():
+    """
+    signup route
+    verifies provided new user details
+    if user avatar is not provided, saves user with default one
+    saves user to database
+    """
     letters_and_digits_regex = "^[0-9a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+$"
     only_letters_regex = "^[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+$"
     username = request.form["username"]
@@ -87,6 +111,11 @@ def sign_up():
 
 
 def validate_password(password: str) -> str:
+    """
+    password validator
+    between 8 and 20 characters long
+    contains at least one digit
+    """
     if len(password) < 8 or len(password) > 20:
         return "Password length must be between 8 and 20 characters inclusive!"
     if not any(char.isdigit() for char in password):

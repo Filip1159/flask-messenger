@@ -1,3 +1,5 @@
+# set of filename utils
+
 def get_extension(filename: str) -> str:
     return filename.rsplit('.', 1)[1]
 
